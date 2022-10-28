@@ -1178,7 +1178,7 @@ static int rt_hw_imxrt_eth_init(void)
     imxrt_eth_device.dev_addr[4] = 0x22;
     imxrt_eth_device.dev_addr[5] = 0x33;
 
-    imxrt_eth_device.speed = kENET_MiiSpeed1000M;
+    imxrt_eth_device.speed = kENET_MiiSpeed100M;//要支持千兆，直接将此值改为kENET_MiiSpeed1000M
     imxrt_eth_device.duplex = kENET_MiiFullDuplex;
 
     imxrt_eth_device.enet_base = ENET_1G;
@@ -1238,7 +1238,8 @@ static int rt_hw_imxrt_eth_init(void)
                                phy_monitor_thread_entry,
                                RT_NULL,
                                4096,
-                               RT_THREAD_PRIORITY_MAX - 2,
+                               /*RT_THREAD_PRIORITY_MAX - 2,*/
+                               15,
                                2);
         if (tid != RT_NULL)
             rt_thread_startup(tid);
