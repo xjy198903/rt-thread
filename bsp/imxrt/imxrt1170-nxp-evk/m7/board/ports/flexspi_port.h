@@ -14,7 +14,7 @@
 /* parameters for flexpsi peripheral */
 #define FLEXSPI1_CONTROL_BASE FLEXSPI1
 #define FLEXSPI2_CONTROL_BASE FLEXSPI2
-#define FLEXSPI_ROOT_CLK (80000000U) /* serial root clk: 80MHz*/
+#define FLEXSPI_ROOT_CLK (40000000U) /* serial root clk: 40MHz*/
 #define FLASH_SIZE (32 * 1024) /* device size 32*1024(KB) = 32MB */
 #define ARD_SEQ_NUMBER 1       /* Sequence number for AHB read command */
 #define ARD_SEQ_INDEX 0        /* Sequence ID for AHB read command */
@@ -24,8 +24,8 @@
 #define AWR_SEQ_CMD 0xAA       /* cmd for write */
 #define FLEXSPI_RX_SAMPLE_CLOCK kFLEXSPI_ReadSampleClkExternalInputFromDqsPad
 #define FLASH_PORT kFLEXSPI_PortA1
-#define CLOCK_SRC kCLOCK_FLEXSPI2_ClockRoot_MuxOscRc400M
-#define CLOCK_DIV 5U
+#define CLOCK_SRC kCLOCK_FLEXSPI1_ClockRoot_MuxOscRc400M
+#define CLOCK_DIV 10U
 #define CUSTOM_LUT_LENGTH 64U
 #define FLEXSPI1_AHB_DATA_ADDRESS (0x30000000U)
 #define FLEXSPI2_AHB_DATA_ADDRESS (0x60000000U)

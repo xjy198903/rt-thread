@@ -27,7 +27,22 @@ menu "On-chip Peripheral Drivers"
         bool "Enable RTC"
         select RT_USING_RTC
         default n
-
+		
+	config BSP_USING_USB
+        bool "Enable USB"
+        select RT_USING_USB_HOST
+        default n
+		
+		if BSP_USING_USB
+				config BSP_USB0_HOST
+					bool "Enable USB0"
+					default n
+				
+				config BSP_USB1_HOST
+					bool "Enable USB1"
+					default n	
+		endif
+		
     config BSP_USING_SDIO
         bool "Enable SDIO"
         select RT_USING_SDIO
@@ -105,6 +120,9 @@ menu "On-chip Peripheral Drivers"
 				config BSP_USING_CAN3
 					bool "Enable FLEXCAN3"
 					default n
+				config BSP_USING_CAN2
+					bool "Enable FLEXCAN2"
+					default n
 			endif
 
         menuconfig BSP_USING_FLEXSPI
@@ -112,10 +130,10 @@ menu "On-chip Peripheral Drivers"
 			default n
 			if BSP_USING_FLEXSPI
 				config BSP_USING_FLEXSPI1
-					bool "Enable FLEXCAN1"
+					bool "Enable FLEXSPI1"
 					default n
                 config BSP_USING_FLEXSPI2
-					bool "Enable FLEXCAN2"
+					bool "Enable FLEXSPI2"
 					default n    
 			endif 
 endmenu
@@ -125,6 +143,12 @@ menu "Onboard Peripheral Drivers"
     config BSP_USING_SDRAM
         bool "Enable SDRAM"
         default n
+		
+		if BSP_USING_SDRAM
+			config CODE_RUN_ON_SDRAM
+				bool "Enable Code Run On SDRAM"
+				default n
+		endif
 
     menuconfig BSP_USING_ETH
     bool "Enable Ethernet"
@@ -142,7 +166,7 @@ menu "Onboard Peripheral Drivers"
         if BSP_USING_PHY
             config PHY_USING_KSZ8081
                 bool "i.MX RT1176EVK uses ksz8081 phy"
-                default y
+                default n
 
             if PHY_USING_KSZ8081
                 config PHY_KSZ8081_ADDRESS

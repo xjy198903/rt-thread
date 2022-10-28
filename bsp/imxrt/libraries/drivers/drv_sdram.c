@@ -24,10 +24,19 @@ static struct rt_memheap system_heap;
 int rt_hw_sdram_init(void)
 {
     int result = RT_EOK;
+#ifndef CODE_RUN_ON_SDRAM
     semc_config_t config;
     semc_sdram_config_t sdramconfig;
 
 #if defined(SOC_IMXRT1170_SERIES)
+//#if defined(USE_IS42S32400F) && (USE_IS42S32400F ==1)
+//    {
+//        clock_root_config_t semc_rootCfg = {0};
+//        semc_rootCfg.mux = kCLOCK_SEMC_ClockRoot_MuxSysPll2Pfd1;
+//        semc_rootCfg.div = 4;
+//        CLOCK_SetRootClock(kCLOCK_Root_Semc, &semc_rootCfg);
+//    }
+//#endif
     rt_uint32_t clockFrq = CLOCK_GetRootClockFreq(kCLOCK_Root_Semc);
 #else
     rt_uint32_t clockFrq = CLOCK_GetFreq(kCLOCK_SemcClk);
@@ -39,7 +48,9 @@ int rt_hw_sdram_init(void)
 
     /* Initialize SEMC. */
     SEMC_GetDefaultConfig(&config);
-    config.dqsMode = kSEMC_Loopbackdqspad;  /* For more accurate timing. */
+    #if !defined(USE_IS42S32400F) && (USE_IS42S32400F ==1)
+      config.dqsMode = kSEMC_Loopbackdqspad;  /* For more accurate timing. */
+    #endif
     SEMC_Init(SEMC, &config);
 
     /* Configure SDRAM. */
@@ -80,11 +91,25 @@ int rt_hw_sdram_init(void)
      *      1. Reserve the half space for SDRAM link case
      *      2. Reserve the 2M for non-cache space
      */
-        rt_memheap_init(&system_heap, "sdram", (void *)(SDRAM_BANK_ADDR + (SDRAM_SIZE * 1024)/2),
+        rt_memheap_init(&system_heap, "sdram", (void *)(SDRAM_BANK_ADDR + (SDRAM_SIZE * 1024)/2 + (2 * 1024 * 1024)),
             (SDRAM_SIZE * 1024)/2 - (2 * 1024 * 1024));
 #endif
     }
-
+#else
+      LOG_D("sdram init success, mapped at 0x%X, size is %d Kbytes.", (SDRAM_BANK_ADDR + (SDRAM_SIZE * 1024)/2 + (2 * 1024 * 1024)),\
+       ((SDRAM_SIZE * 1024)/2 - (2 * 1024 * 1024)) /1024);
+#ifdef RT_USING_MEMHEAP
+    /*
+     * If RT_USING_MEMHEAP is enabled, SDRAM is initialized to the heap.
+     * The heap start address is (base + half size), and the size is (half size - 2M).
+     * The reasons are:
+     *      1. Reserve the half space for SDRAM link case
+     *      2. Reserve the 2M for non-cache space
+     */
+        rt_memheap_init(&system_heap, "sdram", (void *)(SDRAM_BANK_ADDR + (SDRAM_SIZE * 1024)/2 + (2 * 1024 * 1024)),
+            (SDRAM_SIZE * 1024)/2 - (2 * 1024 * 1024));
+#endif
+#endif
     return result;
 }
 INIT_PREV_EXPORT(rt_hw_sdram_init);

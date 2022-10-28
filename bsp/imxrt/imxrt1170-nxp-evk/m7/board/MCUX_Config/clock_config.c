@@ -1,11 +1,4 @@
 /*
- * Copyright 2020-2022 NXP
- * All rights reserved.
- *
- * SPDX-License-Identifier: BSD-3-Clause
- */
-
-/*
  * How to setup clock using clock driver functions:
  *
  * 1. Call CLOCK_InitXXXPLL() to configure corresponding PLL clock.
@@ -22,7 +15,7 @@ product: Clocks v10.0
 processor: MIMXRT1176xxxxx
 package_id: MIMXRT1176DVMAA
 mcu_data: ksdk2_0
-processor_version: 12.0.0
+processor_version: 12.0.1
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
 
 #include "clock_config.h"
@@ -46,29 +39,6 @@ void BOARD_InitBootClocks(void)
 {
     BOARD_BootClockRUN();
 }
-
-#if defined(XIP_BOOT_HEADER_ENABLE) && (XIP_BOOT_HEADER_ENABLE == 1)
-#if defined(XIP_BOOT_HEADER_DCD_ENABLE) && (XIP_BOOT_HEADER_DCD_ENABLE == 1)
-/* This function should not run from SDRAM since it will change SEMC configuration. */
-AT_QUICKACCESS_SECTION_CODE(void UpdateSemcClock(void));
-void UpdateSemcClock(void)
-{
-    /* Enable self-refresh mode and update semc clock root to 200MHz. */
-    SEMC->IPCMD = 0xA55A000D;
-    while ((SEMC->INTR & 0x3) == 0)
-        ;
-    SEMC->INTR                                = 0x3;
-    SEMC->DCCR                                = 0x0B;
-    /*
-    * Currently we are using SEMC parameter which fit both 166MHz and 200MHz, only
-    * need to change the SEMC clock root here. If customer is using their own DCD and
-    * want to switch from 166MHz to 200MHz, extra SEMC configuration might need to be
-    * adjusted here to fine tune the SDRAM performance
-    */
-    CCM->CLOCK_ROOT[kCLOCK_Root_Semc].CONTROL = 0x602;
-}
-#endif
-#endif
 
 /*******************************************************************************
  ********************** Configuration BOARD_BootClockRUN ***********************
@@ -179,11 +149,11 @@ outputs:
 - {id: SAI3_MCLK3.outFreq, value: 24 MHz}
 - {id: SAI4_CLK_ROOT.outFreq, value: 24 MHz}
 - {id: SAI4_MCLK1.outFreq, value: 24 MHz}
-- {id: SEMC_CLK_ROOT.outFreq, value: 198 MHz}
+- {id: SEMC_CLK_ROOT.outFreq, value: 132 MHz}
 - {id: SPDIF_CLK_ROOT.outFreq, value: 24 MHz}
 - {id: SYS_PLL2_CLK.outFreq, value: 528 MHz}
 - {id: SYS_PLL2_PFD0_CLK.outFreq, value: 352 MHz}
-- {id: SYS_PLL2_PFD1_CLK.outFreq, value: 594 MHz}
+- {id: SYS_PLL2_PFD1_CLK.outFreq, value: 528 MHz}
 - {id: SYS_PLL2_PFD2_CLK.outFreq, value: 396 MHz}
 - {id: SYS_PLL2_PFD3_CLK.outFreq, value: 297 MHz}
 - {id: SYS_PLL3_CLK.outFreq, value: 480 MHz}
@@ -197,6 +167,7 @@ outputs:
 settings:
 - {id: CoreBusClockRootsInitializationConfig, value: selectedCore}
 - {id: SOCDomainVoltage, value: OD}
+- {id: SemcConfigurationPatchConfig, value: disabled}
 - {id: ANADIG_OSC_OSC_24M_CTRL_LP_EN_CFG, value: Low}
 - {id: ANADIG_OSC_OSC_24M_CTRL_OSC_EN_CFG, value: Enabled}
 - {id: ANADIG_PLL.PLL_AUDIO_BYPASS.sel, value: ANADIG_OSC.OSC_24M}
@@ -207,6 +178,7 @@ settings:
 - {id: ANADIG_PLL.SYS_PLL2.denom, value: '268435455'}
 - {id: ANADIG_PLL.SYS_PLL2.div, value: '22'}
 - {id: ANADIG_PLL.SYS_PLL2.num, value: '0'}
+- {id: ANADIG_PLL.SYS_PLL2_PFD1_DIV.scale, value: '18'}
 - {id: ANADIG_PLL.SYS_PLL2_SS_DIV.scale, value: '268435455'}
 - {id: ANADIG_PLL.SYS_PLL3_PFD3_DIV.scale, value: '22', locked: true}
 - {id: ANADIG_PLL.SYS_PLL3_PFD3_MUL.scale, value: '18', locked: true}
@@ -229,7 +201,7 @@ settings:
 - {id: CCM.CLOCK_ROOT26.MUX.sel, value: ANADIG_PLL.SYS_PLL2_CLK}
 - {id: CCM.CLOCK_ROOT3.DIV.scale, value: '3'}
 - {id: CCM.CLOCK_ROOT3.MUX.sel, value: ANADIG_PLL.SYS_PLL3_CLK}
-- {id: CCM.CLOCK_ROOT4.DIV.scale, value: '3'}
+- {id: CCM.CLOCK_ROOT4.DIV.scale, value: '4'}
 - {id: CCM.CLOCK_ROOT4.MUX.sel, value: ANADIG_PLL.SYS_PLL2_PFD1_CLK}
 - {id: CCM.CLOCK_ROOT6.DIV.scale, value: '4', locked: true}
 - {id: CCM.CLOCK_ROOT6.MUX.sel, value: ANADIG_PLL.SYS_PLL2_CLK}
@@ -375,9 +347,6 @@ void BOARD_BootClockRUN(void)
     CLOCK_SetRootClock(kCLOCK_Root_Bus_Lpsr, &rootCfg);
 #endif
 
-    /*
-    * if DCD is used, please make sure the clock source of SEMC is not changed in the following PLL/PFD configuration code.
-    */
     /* Init Arm Pll. */
     CLOCK_InitArmPll(&armPllConfig_BOARD_BootClockRUN);
 
@@ -394,7 +363,7 @@ void BOARD_BootClockRUN(void)
     CLOCK_InitPfd(kCLOCK_PllSys2, kCLOCK_Pfd0, 27);
 
     /* Init System Pll2 pfd1. */
-    CLOCK_InitPfd(kCLOCK_PllSys2, kCLOCK_Pfd1, 16);
+    CLOCK_InitPfd(kCLOCK_PllSys2, kCLOCK_Pfd1, 18);
 
     /* Init System Pll2 pfd2. */
     CLOCK_InitPfd(kCLOCK_PllSys2, kCLOCK_Pfd2, 24);
@@ -454,14 +423,8 @@ void BOARD_BootClockRUN(void)
     /* Configure SEMC using SYS_PLL2_PFD1_CLK */
 #ifndef SKIP_SEMC_INIT
     rootCfg.mux = kCLOCK_SEMC_ClockRoot_MuxSysPll2Pfd1;
-    rootCfg.div = 3;
+    rootCfg.div = 4;
     CLOCK_SetRootClock(kCLOCK_Root_Semc, &rootCfg);
-#endif
-
-#if defined(XIP_BOOT_HEADER_ENABLE) && (XIP_BOOT_HEADER_ENABLE == 1)
-#if defined(XIP_BOOT_HEADER_DCD_ENABLE) && (XIP_BOOT_HEADER_DCD_ENABLE == 1)
-    UpdateSemcClock();
-#endif
 #endif
 
     /* Configure CSSYS using OSC_RC_48M_DIV2 */

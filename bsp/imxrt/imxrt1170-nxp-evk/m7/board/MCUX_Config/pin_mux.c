@@ -75,24 +75,62 @@ void BOARD_InitPins(void) {
       .outputLogic = 0U,
       .interruptMode = kGPIO_NoIntmode
   };
-  /* Initialize GPIO functionality on GPIO_AD_04 (pin L14) */
+  /* Initialize GPIO functionality on GPIO_AD_26 (pin L14) */
   GPIO_PinInit(GPIO9, 25U, &gpio9_pinL14_config);
+  
+    /* GPIO configuration on GPIO_AD_27 (pin N16) */
+  gpio_pin_config_t gpio9_pinN16_config = {
+      .direction = kGPIO_DigitalOutput,
+      .outputLogic = 0U,
+      .interruptMode = kGPIO_NoIntmode
+  };
+  /* Initialize GPIO functionality on GPIO_AD_27 (pin N16) */
+  GPIO_PinInit(GPIO9, 26U, &gpio9_pinN16_config);
 
+    /* GPIO configuration on GPIO_AD_10 (pin R17) for USB1_PWR*/
+  gpio_pin_config_t gpio9_pinR17_config = {
+      .direction = kGPIO_DigitalOutput,
+      .outputLogic = 1U,
+      .interruptMode = kGPIO_NoIntmode
+  };
+  /* Initialize GPIO functionality on GPIO_AD_10 (pin R17) */
+  GPIO_PinInit(GPIO9, 9U, &gpio9_pinR17_config);
+  
   IOMUXC_SetPinMux(
       IOMUXC_GPIO_AD_04_GPIO9_IO03,           /* GPIO_AD_04 is configured as GPIO9_IO03 */
       0U);
   IOMUXC_SetPinMux(
-      IOMUXC_GPIO_AD_26_GPIO9_IO25,           /* GPIO_AD_04 is configured as GPIO9_IO03 */
+      IOMUXC_GPIO_AD_26_GPIO9_IO25,           /* GPIO_AD_26 is configured as GPIO9_IO25 */
       0U);
+  IOMUXC_SetPinMux(
+      IOMUXC_GPIO_AD_27_GPIO9_IO26,           /* GPIO_AD_27 is configured as GPIO9_IO26 */
+      0U);                                    /* Software Input On Field: Input Path is determined by functionality */
+  IOMUXC_SetPinMux(
+      IOMUXC_GPIO_AD_10_GPIO9_IO09,           /* GPIO_AD_10 is configured as GPIO9_IO09 */
+      0U);                                    /* Software Input On Field: Input Path is determined by functionality */
+      
   IOMUXC_SetPinMux(
       IOMUXC_GPIO_AD_24_LPUART1_TXD,          /* GPIO_AD_24 is configured as LPUART1_TXD */
       0U);                                    /* Software Input On Field: Input Path is determined by functionality */
   IOMUXC_SetPinMux(
       IOMUXC_GPIO_AD_25_LPUART1_RXD,          /* GPIO_AD_25 is configured as LPUART1_RXD */
       0U);                                    /* Software Input On Field: Input Path is determined by functionality */
-  IOMUXC_SetPinMux(
-      IOMUXC_GPIO_DISP_B2_07_ARM_TRACE_SWO,   /* GPIO_DISP_B2_07 is configured as ARM_TRACE_SWO */
+//  IOMUXC_SetPinMux(
+//      IOMUXC_GPIO_DISP_B2_07_ARM_TRACE_SWO,   /* GPIO_DISP_B2_07 is configured as ARM_TRACE_SWO */
+//      0U);                                    /* Software Input On Field: Input Path is determined by functionality */
+    IOMUXC_SetPinMux(
+      IOMUXC_GPIO_EMC_B1_41_GPIO_MUX2_IO09,   /* GPIO_EMC_B1_41 is configured as GPIO_MUX2_IO09 for FPGA_SET02 */
       0U);                                    /* Software Input On Field: Input Path is determined by functionality */
+  IOMUXC_SetPinMux(
+      IOMUXC_GPIO_SD_B2_04_GPIO_MUX4_IO13,    /* GPIO_SD_B2_04 is configured as GPIO_MUX4_IO13 for FPGA_SET00 */
+      0U);                                    /* Software Input On Field: Input Path is determined by functionality */
+  IOMUXC_SetPinMux(
+      IOMUXC_GPIO_SD_B2_05_GPIO_MUX4_IO14,    /* GPIO_SD_B2_05 is configured as GPIO_MUX4_IO14 for FPGA_SET01*/
+      0U);                                    /* Software Input On Field: Input Path is determined by functionality */
+  IOMUXC_GPR->GPR40 = ((IOMUXC_GPR->GPR40 &
+    (~(BOARD_INITPINS_IOMUXC_GPR_GPR40_GPIO_MUX2_GPIO_SEL_LOW_MASK))) /* Mask bits to zero which are setting */
+      | IOMUXC_GPR_GPR40_GPIO_MUX2_GPIO_SEL_LOW(0x00U) /* GPIO2 and CM7_GPIO2 share same IO MUX function, GPIO_MUX2 selects one GPIO function: 0x00U */
+    );
   IOMUXC_SetPinConfig(
       IOMUXC_GPIO_AD_24_LPUART1_TXD,          /* GPIO_AD_24 PAD functional properties : */
       0x02U);                                 /* Slew Rate Field: Slow Slew Rate
@@ -111,15 +149,15 @@ void BOARD_InitPins(void) {
                                                  Open Drain Field: Disabled
                                                  Domain write protection: Both cores are allowed
                                                  Domain write protection lock: Neither of DWP bits is locked */
-  IOMUXC_SetPinConfig(
-      IOMUXC_GPIO_DISP_B2_07_ARM_TRACE_SWO,   /* GPIO_DISP_B2_07 PAD functional properties : */
-      0x02U);                                 /* Slew Rate Field: Slow Slew Rate
-                                                 Drive Strength Field: high drive strength
-                                                 Pull / Keep Select Field: Pull Disable, Highz
-                                                 Pull Up / Down Config. Field: Weak pull down
-                                                 Open Drain Field: Disabled
-                                                 Domain write protection: Both cores are allowed
-                                                 Domain write protection lock: Neither of DWP bits is locked */
+//  IOMUXC_SetPinConfig(
+//      IOMUXC_GPIO_DISP_B2_07_ARM_TRACE_SWO,   /* GPIO_DISP_B2_07 PAD functional properties : */
+//      0x02U);                                 /* Slew Rate Field: Slow Slew Rate
+//                                                 Drive Strength Field: high drive strength
+//                                                 Pull / Keep Select Field: Pull Disable, Highz
+//                                                 Pull Up / Down Config. Field: Weak pull down
+//                                                 Open Drain Field: Disabled
+//                                                 Domain write protection: Both cores are allowed
+//                                                 Domain write protection lock: Neither of DWP bits is locked */
 }
 
 /***********************************************************************************************************************

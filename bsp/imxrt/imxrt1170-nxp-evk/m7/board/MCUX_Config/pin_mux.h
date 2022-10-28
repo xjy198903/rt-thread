@@ -26,6 +26,8 @@
 extern "C" {
 #endif
 
+#define BOARD_INITPINS_IOMUXC_GPR_GPR40_GPIO_MUX2_GPIO_SEL_LOW_MASK 0x0200U /*!< GPIO2 and CM7_GPIO2 share same IO MUX function, GPIO_MUX2 selects one GPIO function: affected bits mask */
+
 /*!
  * @brief Calls initialization functions.
  *

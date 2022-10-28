@@ -14,15 +14,15 @@
 #define SDRAM_PORT_H__
 
 /* parameters for sdram peripheral */
-
 #define SDRAM_BANK_ADDR                 ((uint32_t)0x80000000U)
 /* region#0/1/2/3: kSEMC_SDRAM_CS0/1/2/3 */
 #define SDRAM_REGION                    kSEMC_SDRAM_CS0
 /* CS pin: kSEMC_MUXCSX0/1/2/3 */
 #define SDRAM_CS_PIN                    kSEMC_MUXCSX0
-/* size(kbyte):64MB = 2*32*1024*1KBytes */
+/* size(kbyte):16MB = 1*16*1K*1KBytes */
 #if defined(SOC_IMXRT1170_SERIES)
-#define SDRAM_SIZE                      ((uint32_t)(0x10000))
+#define USE_IS42S32400F 1
+#define SDRAM_SIZE                      ((uint32_t)(0x4000))
 /* data width: kSEMC_PortSize8Bit,kSEMC_PortSize32Bit */
 #define SDRAM_DATA_WIDTH                kSEMC_PortSize32Bit
 #else
@@ -32,15 +32,15 @@
 #define SDRAM_DATA_WIDTH                kSEMC_PortSize16Bit
 #endif
 /* column bit numbers: kSEMC_SdramColunm_9/10/11/12bit */
-#define SDRAM_COLUMN_BITS               kSEMC_SdramColunm_9bit
+#define SDRAM_COLUMN_BITS               kSEMC_SdramColunm_8bit
 /* cas latency clock number: kSEMC_LatencyOne/Two/Three */
 #define SDRAM_CAS_LATENCY               kSEMC_LatencyThree
 
 /* Timing configuration for W9825G6KH */
 /* TRP:precharge to active command time (ns) */
-#define SDRAM_TRP                       18
+#define SDRAM_TRP                       20
 /* TRCD:active to read/write command delay time (ns) */
-#define SDRAM_TRCD                      18
+#define SDRAM_TRCD                      20
 /* The time between two refresh commands,Use the maximum of the (Trfc , Txsr).(ns) */
 #define SDRAM_REFRESH_RECOVERY          67
 /* TWR:write recovery time (ns). */
@@ -48,9 +48,9 @@
 /* TRAS:active to precharge command time (ns). */
 #define SDRAM_TRAS       42
 /* TRC time (ns). */
-#define SDRAM_TRC                       60
+#define SDRAM_TRC                       65
 /* active to active time (ns). */
-#define SDRAM_ACT2ACT                   60
+#define SDRAM_ACT2ACT                   14
 /* refresh time (ns). 64ms */
 #define SDRAM_REFRESH_ROW               64 * 1000000 / 8192
 

@@ -24,7 +24,11 @@
 
 /* USB PHY configuration */
 #ifndef BOARD_USB_PHY_D_CAL
+#ifdef SOC_IMXRT1170_SERIES
+#define BOARD_USB_PHY_D_CAL (0x06U)
+#else
 #define BOARD_USB_PHY_D_CAL (0x0CU)
+#endif
 #endif
 #ifndef BOARD_USB_PHY_TXCAL45DP
 #define BOARD_USB_PHY_TXCAL45DP (0x06U)
