@@ -1424,7 +1424,7 @@ void rt_hw_board_init()
     imxrt_uart_pins_init();
 #endif
 
-#ifdef BSP_USING_SDRAM
+#if defined(BSP_USING_SDRAM) && !defined(CODE_RUN_ON_SDRAM)
    imxrt_sdram_pins_init();
 #endif
 
