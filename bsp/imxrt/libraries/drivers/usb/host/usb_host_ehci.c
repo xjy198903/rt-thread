@@ -21,6 +21,11 @@
 #include "usb_host.h"
 #endif
 
+//#define USB_GINSTANCE_SIZE (sizeof(usb_host_ehci_instance_t))
+//#if defined(__ICCARM__) /* IAR Workbench */
+//#pragma location = "usb_heap_section"
+//static char ginstance_base[USB_GINSTANCE_SIZE];
+//#endif
 /*******************************************************************************
  * Definitions
  ******************************************************************************/
