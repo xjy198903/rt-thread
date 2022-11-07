@@ -76,7 +76,7 @@
                 </option>
                 <option>
                     <name>OCDownloadVerifyAll</name>
-                    <state>1</state>
+                    <state>0</state>
                 </option>
                 <option>
                     <name>OCProductVersion</name>
@@ -92,7 +92,7 @@
                 </option>
                 <option>
                     <name>UseFlashLoader</name>
-                    <state>1</state>
+                    <state>0</state>
                 </option>
                 <option>
                     <name>CLowLevel</name>
@@ -184,15 +184,15 @@
                 </option>
                 <option>
                     <name>OCMulticoreWorkspace</name>
-                    <state></state>
+                    <state>$PROJ_DIR$PROJ_DIR$/../../../../../m4_bm/boards/evkmimxrt1170/multicore_examples/rpmsg_lite_pingpong/cm4/iar/rpmsg_lite_pingpong_cm4.eww</state>
                 </option>
                 <option>
                     <name>OCMulticoreSlaveProject</name>
-                    <state></state>
+                    <state>rpmsg_lite_pingpong_cm4</state>
                 </option>
                 <option>
                     <name>OCMulticoreSlaveConfiguration</name>
-                    <state></state>
+                    <state>debug</state>
                 </option>
                 <option>
                     <name>OCDownloadExtraImage</name>
@@ -212,7 +212,7 @@
                 </option>
                 <option>
                     <name>OCMulticoreAMPConfigType</name>
-                    <state>0</state>
+                    <state>1</state>
                 </option>
                 <option>
                     <name>OCMulticoreSessionFile</name>

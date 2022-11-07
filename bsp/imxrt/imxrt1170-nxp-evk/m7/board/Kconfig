@@ -17,7 +17,11 @@ menu "On-chip Peripheral Drivers"
     config BSP_USING_DMA
         bool "Enable DMA"
         default n
-
+	
+	config BSP_USING_RPMSG
+        bool "Enable RPMSG"
+        default n
+	
     config BSP_USING_GPIO
         bool "Enable GPIO"
         select RT_USING_PIN
