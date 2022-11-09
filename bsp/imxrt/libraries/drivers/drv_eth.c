@@ -299,7 +299,7 @@ static void _enet_config(void)
             &g_txBuffDescrip[0],
             &g_rxDataBuff[0][0],
             &g_txDataBuff[0][0],
-        };
+        };   
     /* Get default configuration. */
     /*
      * config.miiMode = kENET_RmiiMode;
@@ -344,7 +344,7 @@ static void _enet_config(void)
     buffConfig[0].txFrameInfo = NULL;                                   /* Transmit frame information start address. Set only if using zero-copy transmit. */
     buffConfig[0].rxMaintainEnable = true;                              /* Receive buffer cache maintain. */
     buffConfig[0].txMaintainEnable = true;                              /* Transmit buffer cache maintain. */
-
+   
     /* Get default configuration. */
     /*
      * config.miiMode = kENET_RmiiMode;
@@ -1157,7 +1157,8 @@ static void phy_monitor_thread_entry(void *parameter)
             }
         }
 
-        rt_thread_delay(RT_TICK_PER_SECOND * 2);
+        //rt_thread_delay(RT_TICK_PER_SECOND * 2);
+        rt_thread_mdelay(300);
     }
 }
 #endif
@@ -1178,7 +1179,7 @@ static int rt_hw_imxrt_eth_init(void)
     imxrt_eth_device.dev_addr[4] = 0x22;
     imxrt_eth_device.dev_addr[5] = 0x33;
 
-    imxrt_eth_device.speed = kENET_MiiSpeed100M;//要支持千兆，直接将此值改为kENET_MiiSpeed1000M
+    imxrt_eth_device.speed = kENET_MiiSpeed100M;//要支锟斤拷千锟阶ｏ拷直锟接斤拷锟斤拷值锟斤拷为kENET_MiiSpeed1000M
     imxrt_eth_device.duplex = kENET_MiiFullDuplex;
 
     imxrt_eth_device.enet_base = ENET_1G;
@@ -1238,8 +1239,8 @@ static int rt_hw_imxrt_eth_init(void)
                                phy_monitor_thread_entry,
                                RT_NULL,
                                4096,
-                               /*RT_THREAD_PRIORITY_MAX - 2,*/
-                               15,
+                               RT_THREAD_PRIORITY_MAX - 2,
+                               /*15,*/
                                2);
         if (tid != RT_NULL)
             rt_thread_startup(tid);
