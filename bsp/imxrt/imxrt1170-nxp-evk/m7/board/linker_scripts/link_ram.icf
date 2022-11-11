@@ -27,11 +27,11 @@
 define symbol __ram_vector_table_size__        =  isdefinedsymbol(__ram_vector_table__) ? 0x00000400 : 0;
 define symbol __ram_vector_table_offset__      =  isdefinedsymbol(__ram_vector_table__) ? 0x000003FF : 0;
 
-define symbol m_interrupts_start       = 0x00002000;
-define symbol m_interrupts_end         = 0x000023FF;
+define symbol m_interrupts_start       = 0x00001000;
+define symbol m_interrupts_end         = 0x000013FF;
 
-define symbol m_text_start             = 0x00002400;
-define symbol m_text_end               = 0x00037FFF;
+define symbol m_text_start             = 0x00001400;
+define symbol m_text_end               = 0x0003AFFF;
 
 define symbol m_interrupts_ram_start   = 0x20000000;
 define symbol m_interrupts_ram_end     = 0x20000000 + __ram_vector_table_offset__;
@@ -51,7 +51,7 @@ define symbol m_data2_end              = 0x2033FFFF;
 define exported symbol __NCACHE_REGION_START   = rpmsg_sh_mem_start;
 define exported symbol __NCACHE_REGION_SIZE    = rpmsg_sh_mem_end - rpmsg_sh_mem_start + 1;
 
-define exported symbol core1_image_start     = 0x00038000; //m4_bm bin address
+define exported symbol core1_image_start     = 0x0003B000; //m4_bm bin address
 define exported symbol core1_image_end       = 0x0003FFFF;
 
 /* Sizes */

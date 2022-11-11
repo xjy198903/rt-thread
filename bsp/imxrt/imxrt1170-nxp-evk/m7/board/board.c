@@ -785,9 +785,9 @@ void imxrt_sdram_pins_init(void)
     IOMUXC_SetPinMux(
         IOMUXC_GPIO_EMC_B1_40_SEMC_RDY, /* GPIO_EMC_B1_40 is configured as SEMC_RDY */
         0U);                            /* Software Input On Field: Input Path is determined by functionality */
-    IOMUXC_SetPinMux(
-        IOMUXC_GPIO_EMC_B1_41_SEMC_CSX00, /* GPIO_EMC_B1_41 is configured as SEMC_CSX00 */
-        0U);                              /* Software Input On Field: Input Path is determined by functionality */
+//    IOMUXC_SetPinMux(
+//        IOMUXC_GPIO_EMC_B1_41_SEMC_CSX00, /* GPIO_EMC_B1_41 is configured as SEMC_CSX00 */
+//        0U);                              /* Software Input On Field: Input Path is determined by functionality */
     IOMUXC_SetPinMux(
         IOMUXC_GPIO_EMC_B2_00_SEMC_DATA16, /* GPIO_EMC_B2_00 is configured as SEMC_DATA16 */
         0U);                               /* Software Input On Field: Input Path is determined by functionality */
@@ -1133,13 +1133,13 @@ void imxrt_sdram_pins_init(void)
                                             Open Drain Field: Disabled
                                             Domain write protection: Both cores are allowed
                                             Domain write protection lock: Neither of DWP bits is locked */
-    IOMUXC_SetPinConfig(
-        IOMUXC_GPIO_EMC_B1_41_SEMC_CSX00, /* GPIO_EMC_B1_41 PAD functional properties : */
-        0x08U);                           /* PDRV Field: high drive strength
-                                            Pull Down Pull Up Field: Internal pulldown resistor enabled
-                                            Open Drain Field: Disabled
-                                            Domain write protection: Both cores are allowed
-                                            Domain write protection lock: Neither of DWP bits is locked */
+//    IOMUXC_SetPinConfig(
+//        IOMUXC_GPIO_EMC_B1_41_SEMC_CSX00, /* GPIO_EMC_B1_41 PAD functional properties : */
+//        0x08U);                           /* PDRV Field: high drive strength
+//                                            Pull Down Pull Up Field: Internal pulldown resistor enabled
+//                                            Open Drain Field: Disabled
+//                                            Domain write protection: Both cores are allowed
+//                                            Domain write protection lock: Neither of DWP bits is locked */
     IOMUXC_SetPinConfig(
         IOMUXC_GPIO_EMC_B2_00_SEMC_DATA16, /* GPIO_EMC_B2_00 PAD functional properties : */
         0x08U);                            /* PDRV Field: high drive strength
@@ -1288,6 +1288,16 @@ void imxrt_can_pins_init(void)
         IOMUXC_GPIO_LPSR_01_FLEXCAN3_RX, /* GPIO_LPSR_01 is configured as FLEXCAN3_RX */
         0U);                             /* Software Input On Field: Input Path is determined by functionality */
 #endif
+#ifdef BSP_USING_CAN2
+   CLOCK_EnableClock(kCLOCK_Iomuxc);           /* LPCG on: LPCG is ON. */
+
+  IOMUXC_SetPinMux(
+      IOMUXC_GPIO_AD_00_FLEXCAN2_TX,          /* GPIO_AD_00 is configured as FLEXCAN2_TX */
+      0U);                                    /* Software Input On Field: Input Path is determined by functionality */
+  IOMUXC_SetPinMux(
+      IOMUXC_GPIO_AD_01_FLEXCAN2_RX,          /* GPIO_AD_01 is configured as FLEXCAN2_RX */
+      0U);                                    /* Software Input On Field: Input Path is determined by functionality */
+#endif
 }
 #endif
 
@@ -1414,7 +1424,7 @@ void imxrt_flexspi_pins_init(void)
 void rt_hw_board_init()
 {
     BOARD_ConfigMPU();
-    BOARD_InitPins();
+    BOARD_InitBootPins();
     BOARD_BootClockRUN();
 
     NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4);

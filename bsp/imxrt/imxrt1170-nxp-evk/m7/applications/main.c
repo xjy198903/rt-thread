@@ -13,11 +13,21 @@
 #include <rtdevice.h>
 #include <drv_gpio.h>
 #include <fsl_gpio.h>
+#include "fpga_config.h"
+#include "cnc_can.h"
 
 #define EXAMPLE_LED_GPIO     GPIO9
 #define EXAMPLE_LED_GPIO_PIN   (3U)
 #define EXAMPLE_LED_GPIO_PORT  (3U)
 #define LED_PIN GET_PIN(EXAMPLE_LED_GPIO_PORT, EXAMPLE_LED_GPIO_PIN)
+
+#define POWER_ON_GPIO_PIN (3U)
+#define POWER_ON_GPIO_PORT (25U)
+#define POWER_ON_GPIO GET_PIN(POWER_ON_GPIO_PIN, POWER_ON_GPIO_PORT)
+
+#define POWER2_ON_GPIO_PIN (3U)
+#define POWER2_ON_GPIO_PORT (26U)
+#define POWER2_ON_GPIO GET_PIN(POWER2_ON_GPIO_PIN, POWER2_ON_GPIO_PORT)
 
 #ifdef BSP_USING_RPMSG
 #include <rpmsg_lite.h>
@@ -82,7 +92,7 @@ uint32_t get_core1_image_size(void)
     image_size = (uint32_t)&Image$$CORE1_REGION$$Length;
 #elif defined(__ICCARM__)
 #pragma section = "__core1_image"
-    rt_kprintf("end address:0x%x, start address: 0x%x\n", (uint32_t)__section_end("__core1_image"), (uint32_t)&core1_image_start);
+    printf("end address:0x%x, start address: 0x%x\n", (uint32_t)__section_end("__core1_image"), (uint32_t)&core1_image_start);
     image_size = (uint32_t)__section_end("__core1_image") - (uint32_t)&core1_image_start;
 #elif defined(__GNUC__)
     image_size = (uint32_t)core1_image_size;
@@ -104,8 +114,8 @@ static int32_t my_ept_read_cb(void *payload, uint32_t payload_len, uint32_t src,
         // *has_received = 1;
         rt_sem_release(&rpmsg_sem);
     }
-    //    rt_kprintf("Primary core received a msg\r\n");
-    rt_kprintf("Message: Size=%x, DATA = %i\r\n", payload_len, msg.DATA);
+    //    printf("Primary core received a msg\r\n");
+    //printf("Message: Size=%x, DATA = %i\r\n", payload_len, msg.DATA);
     return RL_RELEASE;
 }
 
@@ -137,17 +147,17 @@ void rpmsg_thread_entry(void *arg)
     struct rpmsg_lite_instance rpmsg_ctxt;
     struct rpmsg_lite_instance *my_rpmsg;
 
-    rt_kprintf("enter rpmsg thread\n");
+    printf("enter rpmsg thread\r\n");
 
 #ifdef CORE1_IMAGE_COPY_TO_RAM
     /* This section ensures the secondary core image is copied from flash location to the target RAM memory.
        It consists of several steps: image size calculation and image copying.
        These steps are not required on MCUXpresso IDE which copies the secondary core image to the target memory during
        startup automatically. */
-    rt_kprintf("copy core image to RAM\n");
+    printf("copy core image to RAM\r\n");
     uint32_t core1_image_size;
     core1_image_size = get_core1_image_size();
-    (void)rt_kprintf("Copy CORE1 image to address: 0x%x, size: %d\r\n", (void *)(char *)CORE1_BOOT_ADDRESS,
+    (void)printf("Copy CORE1 image to address: 0x%x, size: %d\r\n", (void *)(char *)CORE1_BOOT_ADDRESS,
                      core1_image_size);
 
     /* Copy application from FLASH to RAM */
@@ -166,7 +176,7 @@ void rpmsg_thread_entry(void *arg)
                           kMCMGR_Start_Synchronous);
 
     /* Print the initial banner */
-    (void)rt_kprintf("\r\nRPMsg starts\r\n");
+    (void)printf("RPMsg starts\r\n");
 
     /* Wait until the secondary core application signals the rpmsg remote has been initialized and is ready to
      * communicate. */
@@ -208,7 +218,7 @@ void rpmsg_thread_entry(void *arg)
         (void)rpmsg_lite_deinit(my_rpmsg);
     
         /* Print the ending banner */
-        (void)rt_kprintf("\r\nRPMsg demo ends\r\n");
+        (void)printf("RPMsg demo ends\r\n");
 }
 #endif
 
@@ -224,13 +234,12 @@ void led_thread_entry(void *arg)
     // double a3 = 1.8234113;
     // printf("a3: %f\r\n", a3);
 
-    rt_base_t led_pin = GET_PIN(EXAMPLE_LED_GPIO_PORT, EXAMPLE_LED_GPIO_PIN);
-    rt_pin_mode(led_pin, PIN_MODE_OUTPUT);
+    rt_pin_mode(LED_PIN, PIN_MODE_OUTPUT);
     while (1)
     {
-        rt_pin_write(led_pin, PIN_LOW);
+        rt_pin_write(LED_PIN, PIN_LOW);
         rt_thread_mdelay(500);
-        rt_pin_write(led_pin, PIN_HIGH);
+        rt_pin_write(LED_PIN, PIN_HIGH);
         rt_thread_mdelay(500);
     }
 }
@@ -238,7 +247,16 @@ void led_thread_entry(void *arg)
 int main(void)
 {
     rt_pin_mode(LED_PIN, PIN_MODE_OUTPUT);
-    rt_kprintf("hello cncbeijing\n");
+    printf("hello cncbeijing\r\n");
+
+    //turn on power
+    rt_pin_mode(POWER_ON_GPIO, PIN_MODE_OUTPUT);
+    rt_pin_write(POWER_ON_GPIO, PIN_HIGH);
+
+    //turn off power2
+    rt_pin_mode(POWER2_ON_GPIO, PIN_MODE_OUTPUT);
+    rt_pin_write(POWER2_ON_GPIO, PIN_HIGH);
+
 
 #ifdef BSP_USING_RPMSG
     //创建双核通信线程
@@ -260,7 +278,21 @@ int main(void)
     {
         rt_thread_startup(led_tid);
     }
+    
+    int fpga_config_value = check_fpga_config();
+    printf("fpga config value: 0x%x\r\n", fpga_config_value);
+    
+    //config_fpga_firmware();
 
+#ifdef BSP_USING_CAN
+    // can thread test
+    rt_thread_t can_tid;
+    can_tid = rt_thread_create("can comm", can_comm_entry, NULL, CAN_STACK_SIZE, CAN_STACK_SIZE, CAN_THREAD_TICK);
+    if (can_tid != RT_NULL)
+    {
+        rt_thread_startup(can_tid);
+    }
+#endif
 
     while (1)
     {

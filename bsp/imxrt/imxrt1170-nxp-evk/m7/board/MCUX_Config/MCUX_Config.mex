@@ -20,7 +20,17 @@
    <tools>
       <pins name="Pins" version="12.0" enabled="true" update_project_code="true">
          <pins_profile>
-            <processor_version>12.0.0</processor_version>
+            <processor_version>12.0.1</processor_version>
+            <pin_labels>
+               <pin_label pin_num="P15" pin_signal="GPIO_AD_03" label="gpio3_02_pinP15" identifier="gpio3_02_pinP15"/>
+               <pin_label pin_num="K14" pin_signal="GPIO_AD_21" label="gpio3_20_pinK14" identifier="gpio3_20_pinK14"/>
+               <pin_label pin_num="K13" pin_signal="GPIO_AD_20" label="gpio3_19_pinK13" identifier="gpio3_19_pinK13"/>
+               <pin_label pin_num="U8" pin_signal="GPIO_LPSR_08" label="gpio6_08_pinU8" identifier="gpio6_08_pinU8"/>
+               <pin_label pin_num="P5" pin_signal="GPIO_LPSR_09" label="gpio6_09_pinP5" identifier="gpio6_09_pinP5"/>
+               <pin_label pin_num="F14" pin_signal="GPIO_SD_B2_04" label="gpio4_13_pinF14" identifier="gpio4_13_pinF14"/>
+               <pin_label pin_num="E14" pin_signal="GPIO_SD_B2_05" label="gpio4_14_pinE14" identifier="gpio4_14_pinE14"/>
+               <pin_label pin_num="L1" pin_signal="GPIO_EMC_B1_41" label="gpio2_09_pinL1" identifier="gpio2_09_pinL1"/>
+            </pin_labels>
             <power_domains/>
          </pins_profile>
          <functions_list>
@@ -37,7 +47,27 @@
                         <data>true</data>
                      </feature>
                   </dependency>
-                  <dependency resourceType="Peripheral" resourceId="ARM" description="Peripheral ARM is not initialized" problem_level="1" source="Pins:BOARD_InitPins">
+                  <dependency resourceType="Peripheral" resourceId="USDHC1" description="Peripheral USDHC1 is not initialized" problem_level="1" source="Pins:BOARD_InitPins">
+                     <feature name="initialized" evaluation="equal">
+                        <data>true</data>
+                     </feature>
+                  </dependency>
+                  <dependency resourceType="Peripheral" resourceId="ENET_1G" description="Peripheral ENET_1G is not initialized" problem_level="1" source="Pins:BOARD_InitPins">
+                     <feature name="initialized" evaluation="equal">
+                        <data>true</data>
+                     </feature>
+                  </dependency>
+                  <dependency resourceType="Peripheral" resourceId="SEMC" description="Peripheral SEMC is not initialized" problem_level="1" source="Pins:BOARD_InitPins">
+                     <feature name="initialized" evaluation="equal">
+                        <data>true</data>
+                     </feature>
+                  </dependency>
+                  <dependency resourceType="Peripheral" resourceId="CAN2" description="Peripheral CAN2 is not initialized" problem_level="1" source="Pins:BOARD_InitPins">
+                     <feature name="initialized" evaluation="equal">
+                        <data>true</data>
+                     </feature>
+                  </dependency>
+                  <dependency resourceType="Peripheral" resourceId="FLEXSPI1" description="Peripheral FLEXSPI1 is not initialized" problem_level="1" source="Pins:BOARD_InitPins">
                      <feature name="initialized" evaluation="equal">
                         <data>true</data>
                      </feature>
@@ -74,8 +104,173 @@
                         <pin_feature name="slew_rate" value="Slow"/>
                      </pin_features>
                   </pin>
-                  <pin peripheral="ARM" signal="arm_trace_swo" pin_num="D6" pin_signal="GPIO_DISP_B2_07">
+                  <pin peripheral="USDHC1" signal="usdhc_vselect" pin_num="J16" pin_signal="GPIO_AD_34"/>
+                  <pin peripheral="GPIO10" signal="gpio_io, 02" pin_num="G17" pin_signal="GPIO_AD_35"/>
+                  <pin peripheral="USDHC1" signal="usdhc_cmd" pin_num="B16" pin_signal="GPIO_SD_B1_00"/>
+                  <pin peripheral="USDHC1" signal="usdhc_clk" pin_num="D15" pin_signal="GPIO_SD_B1_01"/>
+                  <pin peripheral="USDHC1" signal="usdhc_data, 0" pin_num="C15" pin_signal="GPIO_SD_B1_02"/>
+                  <pin peripheral="USDHC1" signal="usdhc_data, 1" pin_num="B17" pin_signal="GPIO_SD_B1_03"/>
+                  <pin peripheral="USDHC1" signal="usdhc_data, 2" pin_num="B15" pin_signal="GPIO_SD_B1_04"/>
+                  <pin peripheral="USDHC1" signal="usdhc_data, 3" pin_num="A16" pin_signal="GPIO_SD_B1_05"/>
+                  <pin peripheral="ENET_1G" signal="enet_rx_en" pin_num="E13" pin_signal="GPIO_DISP_B1_00"/>
+                  <pin peripheral="ENET_1G" signal="enet_rx_clk" pin_num="D13" pin_signal="GPIO_DISP_B1_01"/>
+                  <pin peripheral="ENET_1G" signal="enet_rdata, 00" pin_num="D11" pin_signal="GPIO_DISP_B1_02"/>
+                  <pin peripheral="ENET_1G" signal="enet_rdata, 01" pin_num="E11" pin_signal="GPIO_DISP_B1_03"/>
+                  <pin peripheral="ENET_1G" signal="enet_rdata, 02" pin_num="E10" pin_signal="GPIO_DISP_B1_04"/>
+                  <pin peripheral="ENET_1G" signal="enet_rdata, 03" pin_num="C11" pin_signal="GPIO_DISP_B1_05"/>
+                  <pin peripheral="ENET_1G" signal="enet_tdata, 03" pin_num="D10" pin_signal="GPIO_DISP_B1_06"/>
+                  <pin peripheral="ENET_1G" signal="enet_tdata, 02" pin_num="E12" pin_signal="GPIO_DISP_B1_07"/>
+                  <pin peripheral="ENET_1G" signal="enet_tdata, 01" pin_num="A15" pin_signal="GPIO_DISP_B1_08"/>
+                  <pin peripheral="ENET_1G" signal="enet_tdata, 00" pin_num="C13" pin_signal="GPIO_DISP_B1_09"/>
+                  <pin peripheral="ENET_1G" signal="enet_tx_en" pin_num="B14" pin_signal="GPIO_DISP_B1_10"/>
+                  <pin peripheral="ENET_1G" signal="enet_tx_clk_io" pin_num="A14" pin_signal="GPIO_DISP_B1_11"/>
+                  <pin peripheral="ENET_1G" signal="enet_mdc" pin_num="U2" pin_signal="GPIO_EMC_B2_19"/>
+                  <pin peripheral="ENET_1G" signal="enet_mdio" pin_num="R3" pin_signal="GPIO_EMC_B2_20"/>
+                  <pin peripheral="GPIO5" signal="gpio_mux_io, 14" pin_num="A5" pin_signal="GPIO_DISP_B2_13"/>
+                  <pin peripheral="SEMC" signal="DATA, 00" pin_num="F3" pin_signal="GPIO_EMC_B1_00"/>
+                  <pin peripheral="SEMC" signal="DATA, 01" pin_num="F2" pin_signal="GPIO_EMC_B1_01"/>
+                  <pin peripheral="SEMC" signal="DATA, 02" pin_num="G4" pin_signal="GPIO_EMC_B1_02"/>
+                  <pin peripheral="SEMC" signal="DATA, 03" pin_num="E4" pin_signal="GPIO_EMC_B1_03"/>
+                  <pin peripheral="SEMC" signal="DATA, 05" pin_num="F4" pin_signal="GPIO_EMC_B1_05"/>
+                  <pin peripheral="SEMC" signal="DATA, 04" pin_num="H5" pin_signal="GPIO_EMC_B1_04"/>
+                  <pin peripheral="SEMC" signal="DATA, 06" pin_num="H4" pin_signal="GPIO_EMC_B1_06"/>
+                  <pin peripheral="SEMC" signal="DATA, 07" pin_num="H3" pin_signal="GPIO_EMC_B1_07"/>
+                  <pin peripheral="SEMC" signal="DM, 0" pin_num="F5" pin_signal="GPIO_EMC_B1_08"/>
+                  <pin peripheral="SEMC" signal="ADDR, 00" pin_num="A3" pin_signal="GPIO_EMC_B1_09"/>
+                  <pin peripheral="SEMC" signal="ADDR, 01" pin_num="A2" pin_signal="GPIO_EMC_B1_10"/>
+                  <pin peripheral="SEMC" signal="ADDR, 02" pin_num="C2" pin_signal="GPIO_EMC_B1_11"/>
+                  <pin peripheral="SEMC" signal="ADDR, 03" pin_num="C5" pin_signal="GPIO_EMC_B1_12"/>
+                  <pin peripheral="SEMC" signal="ADDR, 04" pin_num="D5" pin_signal="GPIO_EMC_B1_13"/>
+                  <pin peripheral="SEMC" signal="ADDR, 05" pin_num="B1" pin_signal="GPIO_EMC_B1_14"/>
+                  <pin peripheral="SEMC" signal="ADDR, 06" pin_num="C1" pin_signal="GPIO_EMC_B1_15"/>
+                  <pin peripheral="SEMC" signal="ADDR, 07" pin_num="D3" pin_signal="GPIO_EMC_B1_16"/>
+                  <pin peripheral="SEMC" signal="ADDR, 08" pin_num="B3" pin_signal="GPIO_EMC_B1_17"/>
+                  <pin peripheral="SEMC" signal="ADDR, 09" pin_num="B4" pin_signal="GPIO_EMC_B1_18"/>
+                  <pin peripheral="SEMC" signal="ADDR, 10" pin_num="B2" pin_signal="GPIO_EMC_B1_23"/>
+                  <pin peripheral="SEMC" signal="ADDR, 11" pin_num="C4" pin_signal="GPIO_EMC_B1_19"/>
+                  <pin peripheral="SEMC" signal="ADDR, 12" pin_num="C3" pin_signal="GPIO_EMC_B1_20"/>
+                  <pin peripheral="SEMC" signal="BA, 0" pin_num="G2" pin_signal="GPIO_EMC_B1_21"/>
+                  <pin peripheral="SEMC" signal="BA, 1" pin_num="H2" pin_signal="GPIO_EMC_B1_22"/>
+                  <pin peripheral="SEMC" signal="semc_cas" pin_num="J5" pin_signal="GPIO_EMC_B1_24"/>
+                  <pin peripheral="SEMC" signal="semc_ras" pin_num="J4" pin_signal="GPIO_EMC_B1_25"/>
+                  <pin peripheral="SEMC" signal="semc_clk" pin_num="J3" pin_signal="GPIO_EMC_B1_26"/>
+                  <pin peripheral="SEMC" signal="semc_cke" pin_num="G5" pin_signal="GPIO_EMC_B1_27"/>
+                  <pin peripheral="SEMC" signal="semc_we" pin_num="E5" pin_signal="GPIO_EMC_B1_28"/>
+                  <pin peripheral="SEMC" signal="CS, 0" pin_num="E6" pin_signal="GPIO_EMC_B1_29"/>
+                  <pin peripheral="SEMC" signal="DATA, 08" pin_num="E3" pin_signal="GPIO_EMC_B1_30"/>
+                  <pin peripheral="SEMC" signal="DATA, 09" pin_num="D2" pin_signal="GPIO_EMC_B1_31"/>
+                  <pin peripheral="SEMC" signal="DATA, 10" pin_num="D1" pin_signal="GPIO_EMC_B1_32"/>
+                  <pin peripheral="SEMC" signal="DATA, 11" pin_num="E2" pin_signal="GPIO_EMC_B1_33"/>
+                  <pin peripheral="SEMC" signal="DATA, 12" pin_num="E1" pin_signal="GPIO_EMC_B1_34"/>
+                  <pin peripheral="SEMC" signal="DATA, 13" pin_num="F1" pin_signal="GPIO_EMC_B1_35"/>
+                  <pin peripheral="SEMC" signal="DATA, 14" pin_num="G1" pin_signal="GPIO_EMC_B1_36"/>
+                  <pin peripheral="SEMC" signal="DATA, 15" pin_num="H1" pin_signal="GPIO_EMC_B1_37"/>
+                  <pin peripheral="SEMC" signal="DATA, 16" pin_num="K2" pin_signal="GPIO_EMC_B2_00"/>
+                  <pin peripheral="SEMC" signal="DATA, 17" pin_num="K4" pin_signal="GPIO_EMC_B2_01"/>
+                  <pin peripheral="SEMC" signal="DATA, 18" pin_num="K3" pin_signal="GPIO_EMC_B2_02"/>
+                  <pin peripheral="SEMC" signal="DATA, 19" pin_num="R1" pin_signal="GPIO_EMC_B2_03"/>
+                  <pin peripheral="SEMC" signal="DATA, 20" pin_num="M1" pin_signal="GPIO_EMC_B2_04"/>
+                  <pin peripheral="SEMC" signal="DATA, 21" pin_num="N1" pin_signal="GPIO_EMC_B2_05"/>
+                  <pin peripheral="SEMC" signal="DATA, 22" pin_num="T1" pin_signal="GPIO_EMC_B2_06"/>
+                  <pin peripheral="SEMC" signal="DATA, 31" pin_num="P2" pin_signal="GPIO_EMC_B2_16"/>
+                  <pin peripheral="SEMC" signal="DATA, 30" pin_num="L2" pin_signal="GPIO_EMC_B2_15"/>
+                  <pin peripheral="SEMC" signal="DATA, 29" pin_num="M4" pin_signal="GPIO_EMC_B2_14"/>
+                  <pin peripheral="SEMC" signal="DATA, 28" pin_num="K5" pin_signal="GPIO_EMC_B2_13"/>
+                  <pin peripheral="SEMC" signal="DATA, 27" pin_num="M2" pin_signal="GPIO_EMC_B2_12"/>
+                  <pin peripheral="SEMC" signal="DATA, 26" pin_num="L4" pin_signal="GPIO_EMC_B2_11"/>
+                  <pin peripheral="SEMC" signal="DATA, 25" pin_num="R2" pin_signal="GPIO_EMC_B2_10"/>
+                  <pin peripheral="SEMC" signal="DATA, 24" pin_num="N2" pin_signal="GPIO_EMC_B2_09"/>
+                  <pin peripheral="SEMC" signal="DATA, 23" pin_num="M3" pin_signal="GPIO_EMC_B2_07"/>
+                  <pin peripheral="SEMC" signal="DM, 1" pin_num="J1" pin_signal="GPIO_EMC_B1_38"/>
+                  <pin peripheral="SEMC" signal="DM, 2" pin_num="P1" pin_signal="GPIO_EMC_B2_08"/>
+                  <pin peripheral="SEMC" signal="DM, 3" pin_num="T2" pin_signal="GPIO_EMC_B2_17"/>
+                  <pin peripheral="SEMC" signal="semc_dqs" pin_num="J2" pin_signal="GPIO_EMC_B1_39"/>
+                  <pin peripheral="SEMC" signal="semc_rdy" pin_num="K1" pin_signal="GPIO_EMC_B1_40"/>
+                  <pin peripheral="SEMC" signal="semc_dqs4" pin_num="N3" pin_signal="GPIO_EMC_B2_18"/>
+                  <pin peripheral="CAN2" signal="TX" pin_num="N12" pin_signal="GPIO_AD_00"/>
+                  <pin peripheral="CAN2" signal="RX" pin_num="R14" pin_signal="GPIO_AD_01"/>
+                  <pin peripheral="FLEXSPI1" signal="FLEXSPI_A_DQS" pin_num="N15" pin_signal="GPIO_AD_17"/>
+                  <pin peripheral="FLEXSPI1" signal="FLEXSPI_B_DATA3" pin_num="J15" pin_signal="GPIO_SD_B2_00"/>
+                  <pin peripheral="FLEXSPI1" signal="FLEXSPI_B_DATA2" pin_num="J14" pin_signal="GPIO_SD_B2_01"/>
+                  <pin peripheral="FLEXSPI1" signal="FLEXSPI_B_DATA1" pin_num="H13" pin_signal="GPIO_SD_B2_02"/>
+                  <pin peripheral="FLEXSPI1" signal="FLEXSPI_B_DATA0" pin_num="E15" pin_signal="GPIO_SD_B2_03"/>
+                  <pin peripheral="FLEXSPI1" signal="FLEXSPI_A_SS0_B" pin_num="F17" pin_signal="GPIO_SD_B2_06"/>
+                  <pin peripheral="FLEXSPI1" signal="FLEXSPI_A_SCLK" pin_num="G14" pin_signal="GPIO_SD_B2_07"/>
+                  <pin peripheral="FLEXSPI1" signal="FLEXSPI_A_DATA0" pin_num="F15" pin_signal="GPIO_SD_B2_08"/>
+                  <pin peripheral="FLEXSPI1" signal="FLEXSPI_A_DATA1" pin_num="H15" pin_signal="GPIO_SD_B2_09"/>
+                  <pin peripheral="FLEXSPI1" signal="FLEXSPI_A_DATA2" pin_num="H14" pin_signal="GPIO_SD_B2_10"/>
+                  <pin peripheral="FLEXSPI1" signal="FLEXSPI_A_DATA3" pin_num="F16" pin_signal="GPIO_SD_B2_11"/>
+                  <pin peripheral="GPIO9" signal="gpio_io, 03" pin_num="M13" pin_signal="GPIO_AD_04"/>
+                  <pin peripheral="GPIO3" signal="gpio_mux_io, 26" pin_num="N16" pin_signal="GPIO_AD_27"/>
+                  <pin peripheral="GPIO3" signal="gpio_mux_io, 25" pin_num="L14" pin_signal="GPIO_AD_26"/>
+               </pins>
+            </function>
+            <function name="BOARD_InitFPGAConfigPins">
+               <description>Configures pin routing and optionally pin electrical features.</description>
+               <options>
+                  <callFromInitBoot>true</callFromInitBoot>
+                  <coreID>cm7</coreID>
+                  <enableClock>true</enableClock>
+                  <fullInit>true</fullInit>
+               </options>
+               <dependencies>
+                  <dependency resourceType="SWComponent" resourceId="platform.drivers.common" description="Pins initialization requires the COMMON Driver in the project." problem_level="2" source="Pins:BOARD_InitFPGAConfigPins">
+                     <feature name="enabled" evaluation="equal" configuration="cm7">
+                        <data>true</data>
+                     </feature>
+                  </dependency>
+                  <dependency resourceType="SWComponent" resourceId="platform.drivers.iomuxc" description="Pins initialization requires the IOMUXC Driver in the project." problem_level="2" source="Pins:BOARD_InitFPGAConfigPins">
+                     <feature name="enabled" evaluation="equal" configuration="cm7">
+                        <data>true</data>
+                     </feature>
+                  </dependency>
+                  <dependency resourceType="SWComponent" resourceId="platform.drivers.igpio" description="Pins initialization requires the IGPIO Driver in the project." problem_level="2" source="Pins:BOARD_InitFPGAConfigPins">
+                     <feature name="enabled" evaluation="equal" configuration="cm7">
+                        <data>true</data>
+                     </feature>
+                  </dependency>
+               </dependencies>
+               <pins>
+                  <pin peripheral="GPIO3" signal="gpio_mux_io, 02" pin_num="P15" pin_signal="GPIO_AD_03">
                      <pin_features>
+                        <pin_feature name="direction" value="INPUT"/>
+                        <pin_feature name="gpio_interrupt" value="kGPIO_NoIntmode"/>
+                        <pin_feature name="software_input_on" value="Enable"/>
+                        <pin_feature name="pull_up_down_config" value="Pull_Down"/>
+                        <pin_feature name="pull_keeper_select" value="Pull"/>
+                        <pin_feature name="open_drain" value="Disable"/>
+                        <pin_feature name="drive_strength" value="High"/>
+                        <pin_feature name="slew_rate" value="Slow"/>
+                     </pin_features>
+                  </pin>
+                  <pin peripheral="GPIO3" signal="gpio_mux_io, 19" pin_num="K13" pin_signal="GPIO_AD_20">
+                     <pin_features>
+                        <pin_feature name="direction" value="INPUT"/>
+                        <pin_feature name="gpio_interrupt" value="kGPIO_NoIntmode"/>
+                        <pin_feature name="software_input_on" value="Enable"/>
+                        <pin_feature name="pull_up_down_config" value="Pull_Down"/>
+                        <pin_feature name="pull_keeper_select" value="Pull"/>
+                        <pin_feature name="open_drain" value="Disable"/>
+                        <pin_feature name="drive_strength" value="High"/>
+                        <pin_feature name="slew_rate" value="Slow"/>
+                     </pin_features>
+                  </pin>
+                  <pin peripheral="GPIO3" signal="gpio_mux_io, 20" pin_num="K14" pin_signal="GPIO_AD_21">
+                     <pin_features>
+                        <pin_feature name="direction" value="OUTPUT"/>
+                        <pin_feature name="gpio_init_state" value="true"/>
+                        <pin_feature name="software_input_on" value="Disable"/>
+                        <pin_feature name="pull_up_down_config" value="Pull_Down"/>
+                        <pin_feature name="pull_keeper_select" value="Pull"/>
+                        <pin_feature name="open_drain" value="Disable"/>
+                        <pin_feature name="drive_strength" value="High"/>
+                        <pin_feature name="slew_rate" value="Slow"/>
+                     </pin_features>
+                  </pin>
+                  <pin peripheral="GPIO6" signal="gpio_mux_io, 09" pin_num="P5" pin_signal="GPIO_LPSR_09">
+                     <pin_features>
+                        <pin_feature name="direction" value="OUTPUT"/>
+                        <pin_feature name="gpio_init_state" value="false"/>
                         <pin_feature name="software_input_on" value="Disable"/>
                         <pin_feature name="pull_up_down_config" value="Pull_Down"/>
                         <pin_feature name="pull_keeper_select" value="Keeper"/>
@@ -84,13 +279,55 @@
                         <pin_feature name="slew_rate" value="Slow"/>
                      </pin_features>
                   </pin>
+                  <pin peripheral="GPIO6" signal="gpio_mux_io, 08" pin_num="U8" pin_signal="GPIO_LPSR_08">
+                     <pin_features>
+                        <pin_feature name="direction" value="OUTPUT"/>
+                        <pin_feature name="gpio_init_state" value="false"/>
+                        <pin_feature name="software_input_on" value="Disable"/>
+                        <pin_feature name="pull_up_down_config" value="Pull_Down"/>
+                        <pin_feature name="pull_keeper_select" value="Keeper"/>
+                        <pin_feature name="open_drain" value="Disable"/>
+                        <pin_feature name="drive_strength" value="High"/>
+                        <pin_feature name="slew_rate" value="Slow"/>
+                     </pin_features>
+                  </pin>
+                  <pin peripheral="GPIO4" signal="gpio_mux_io, 13" pin_num="F14" pin_signal="GPIO_SD_B2_04">
+                     <pin_features>
+                        <pin_feature name="direction" value="INPUT"/>
+                        <pin_feature name="gpio_interrupt" value="kGPIO_NoIntmode"/>
+                        <pin_feature name="software_input_on" value="Enable"/>
+                        <pin_feature name="pull_down_pull_up_config" value="Pull_Up"/>
+                        <pin_feature name="pdrv_config" value="High_Driver"/>
+                        <pin_feature name="open_drain" value="Disable"/>
+                     </pin_features>
+                  </pin>
+                  <pin peripheral="GPIO4" signal="gpio_mux_io, 14" pin_num="E14" pin_signal="GPIO_SD_B2_05">
+                     <pin_features>
+                        <pin_feature name="direction" value="INPUT"/>
+                        <pin_feature name="gpio_interrupt" value="kGPIO_NoIntmode"/>
+                        <pin_feature name="software_input_on" value="Enable"/>
+                        <pin_feature name="pull_down_pull_up_config" value="Pull_Up"/>
+                        <pin_feature name="pdrv_config" value="High_Driver"/>
+                        <pin_feature name="open_drain" value="Disable"/>
+                     </pin_features>
+                  </pin>
+                  <pin peripheral="GPIO2" signal="gpio_mux_io, 09" pin_num="L1" pin_signal="GPIO_EMC_B1_41">
+                     <pin_features>
+                        <pin_feature name="direction" value="INPUT"/>
+                        <pin_feature name="gpio_interrupt" value="kGPIO_NoIntmode"/>
+                        <pin_feature name="software_input_on" value="Enable"/>
+                        <pin_feature name="pull_down_pull_up_config" value="Pull_Down"/>
+                        <pin_feature name="pdrv_config" value="High_Driver"/>
+                        <pin_feature name="open_drain" value="Disable"/>
+                     </pin_features>
+                  </pin>
                </pins>
             </function>
          </functions_list>
       </pins>
       <clocks name="Clocks" version="10.0" enabled="true" update_project_code="true">
          <clocks_profile>
-            <processor_version>12.0.0</processor_version>
+            <processor_version>12.0.1</processor_version>
          </clocks_profile>
          <clock_configurations>
             <clock_configuration name="BOARD_BootClockRUN" id_prefix="" prefix_user_defined="false">
@@ -356,7 +593,7 @@
       </clocks>
       <dcdx name="DCDx" version="3.0" enabled="true" update_project_code="true">
          <dcdx_profile>
-            <processor_version>12.0.0</processor_version>
+            <processor_version>12.0.1</processor_version>
             <output_format>c_array</output_format>
          </dcdx_profile>
          <dcdx_configurations>
@@ -543,7 +780,7 @@
       </dcdx>
       <periphs name="Peripherals" version="11.0" enabled="true" update_project_code="true">
          <peripherals_profile>
-            <processor_version>12.0.0</processor_version>
+            <processor_version>12.0.1</processor_version>
          </peripherals_profile>
          <functional_groups>
             <functional_group name="BOARD_InitPeripherals" uuid="7ee8fc36-68c9-403c-a923-44701e1362da" called_from_default_init="true" id_prefix="" core="cm7">
