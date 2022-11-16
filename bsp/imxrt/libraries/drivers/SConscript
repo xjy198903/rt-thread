@@ -82,6 +82,7 @@ if GetDepend('BSP_USING_FLEXSPI'):
     src += ['drv_flexspi.c']
 
 if GetDepend('BSP_USING_RPMSG'):
+    src += ['drv_boot_secondary_core.c']
     src += Glob('rpmsg/rpmsg_lite/rpmsg_lite/*.c')
     src += Glob('rpmsg/rpmsg_lite/rpmsg_lite/porting/*.c')
     src += Glob('rpmsg/rpmsg_lite/virtio/*.c')

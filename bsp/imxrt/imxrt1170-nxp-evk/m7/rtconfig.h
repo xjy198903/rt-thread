@@ -307,6 +307,10 @@
 #define BSP_USB0_HOST
 #define BSP_USING_LPUART
 #define BSP_USING_LPUART1
+#define BSP_USING_CAN
+#define BSP_USING_CAN2
+#define BSP_USING_FLEXSPI
+#define BSP_USING_FLEXSPI1
 
 /* Onboard Peripheral Drivers */
 

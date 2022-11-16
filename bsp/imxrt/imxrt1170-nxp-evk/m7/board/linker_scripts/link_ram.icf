@@ -42,6 +42,12 @@ define symbol m_data_end               = 0x2003FFFF;
 define symbol m_data2_start            = 0x202C0000;
 define symbol m_data2_end              = 0x2033DFFF;
 
+define symbol m_data3_start            = 0x80000000;
+define symbol m_data3_end              = 0x80FFFFFF;
+
+define exported symbol __SDRAM_HEAP_START = m_data3_start;
+define exported symbol __SDRAM_HEAP_SIZE = m_data3_end - m_data3_start + 1;
+
 define exported symbol rpmsg_sh_mem_start      = 0x2033E000;
 define exported symbol rpmsg_sh_mem_end        = 0x2033FFFF;
 
