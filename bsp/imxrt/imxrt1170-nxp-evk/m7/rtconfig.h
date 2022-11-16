@@ -67,6 +67,28 @@
 #define MSH_USING_BUILT_IN_COMMANDS
 #define FINSH_USING_DESCRIPTION
 #define FINSH_ARG_MAX 10
+#define RT_USING_DFS
+#define DFS_USING_POSIX
+#define DFS_USING_WORKDIR
+#define DFS_FILESYSTEMS_MAX 4
+#define DFS_FILESYSTEM_TYPES_MAX 4
+#define DFS_FD_MAX 16
+#define RT_USING_DFS_ELMFAT
+
+/* elm-chan's FatFs, Generic FAT Filesystem Module */
+
+#define RT_DFS_ELM_CODE_PAGE 437
+#define RT_DFS_ELM_WORD_ACCESS
+#define RT_DFS_ELM_USE_LFN_3
+#define RT_DFS_ELM_USE_LFN 3
+#define RT_DFS_ELM_LFN_UNICODE_0
+#define RT_DFS_ELM_LFN_UNICODE 0
+#define RT_DFS_ELM_MAX_LFN 255
+#define RT_DFS_ELM_DRIVES 2
+#define RT_DFS_ELM_MAX_SECTOR_SIZE 512
+#define RT_DFS_ELM_REENTRANT
+#define RT_DFS_ELM_MUTEX_TIMEOUT 3000
+#define RT_USING_DFS_DEVFS
 
 /* Device Drivers */
 
@@ -81,6 +103,11 @@
 
 /* Using USB */
 
+#define RT_USING_USB
+#define RT_USING_USB_HOST
+#define RT_USBH_MSTORAGE
+#define UDISK_MOUNTPOINT "/"
+#define RT_USBD_THREAD_STACK_SZ 4096
 
 /* C/C++ and POSIX layer */
 
@@ -276,16 +303,15 @@
 
 #define BSP_USING_RPMSG
 #define BSP_USING_GPIO
+#define BSP_USING_USB
+#define BSP_USB0_HOST
 #define BSP_USING_LPUART
 #define BSP_USING_LPUART1
-#define BSP_USING_CAN
-#define BSP_USING_CAN2
-#define BSP_USING_FLEXSPI
-#define BSP_USING_FLEXSPI1
 
 /* Onboard Peripheral Drivers */
 
 #define BSP_USING_SDRAM
+#define CODE_RUN_ON_SDRAM
 #define BSP_USING_ETH
 #define BSP_USING_PHY
 #define PHY_USING_RTL8211F

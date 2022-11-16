@@ -111,13 +111,32 @@ struct rt_imxrt_eth
 #endif
 };
 
+#if defined(__ICCARM__) /* IAR Workbench */
+#pragma location = "enet_mem_section"
+ALIGN(ENET_BUFF_ALIGNMENT)
+static enet_tx_bd_struct_t g_txBuffDescrip[ENET_TXBD_NUM];
+
+ALIGN(ENET_BUFF_ALIGNMENT)
+rt_uint8_t g_txDataBuff[ENET_TXBD_NUM][RT_ALIGN(ENET_TXBUFF_SIZE, ENET_BUFF_ALIGNMENT)];
+
+#pragma location = "enet_mem_section"
+ALIGN(ENET_BUFF_ALIGNMENT)
+static enet_rx_bd_struct_t g_rxBuffDescrip[ENET_RXBD_NUM];
+
+ALIGN(ENET_BUFF_ALIGNMENT)
+rt_uint8_t g_rxDataBuff[ENET_RXBD_NUM][RT_ALIGN(ENET_RXBUFF_SIZE, ENET_BUFF_ALIGNMENT)];
+
+#else
 AT_NONCACHEABLE_SECTION_ALIGN(static enet_tx_bd_struct_t g_txBuffDescrip[ENET_TXBD_NUM], ENET_BUFF_ALIGNMENT);
+
 ALIGN(ENET_BUFF_ALIGNMENT)
 rt_uint8_t g_txDataBuff[ENET_TXBD_NUM][RT_ALIGN(ENET_TXBUFF_SIZE, ENET_BUFF_ALIGNMENT)];
 
 AT_NONCACHEABLE_SECTION_ALIGN(static enet_rx_bd_struct_t g_rxBuffDescrip[ENET_RXBD_NUM], ENET_BUFF_ALIGNMENT);
 ALIGN(ENET_BUFF_ALIGNMENT)
 rt_uint8_t g_rxDataBuff[ENET_RXBD_NUM][RT_ALIGN(ENET_RXBUFF_SIZE, ENET_BUFF_ALIGNMENT)];
+#endif
+
 
 static struct rt_imxrt_eth imxrt_eth_device;
 

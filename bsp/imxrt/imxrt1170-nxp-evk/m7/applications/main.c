@@ -15,6 +15,11 @@
 #include <fsl_gpio.h>
 #include "fpga_config.h"
 #include "cnc_can.h"
+#include "board.h"
+
+#define DBG_TAG "app"
+#define DBG_LVL DBG_LOG
+#include <rtdbg.h>
 
 #define EXAMPLE_LED_GPIO     GPIO9
 #define EXAMPLE_LED_GPIO_PIN   (3U)
@@ -249,11 +254,13 @@ int main(void)
     rt_pin_mode(LED_PIN, PIN_MODE_OUTPUT);
     printf("hello cncbeijing\r\n");
 
+    LOG_D("heap start addr: 0x%x, heap end addr: 0x%x\r\n", HEAP_BEGIN, HEAP_END);
+
     //turn on power
     rt_pin_mode(POWER_ON_GPIO, PIN_MODE_OUTPUT);
     rt_pin_write(POWER_ON_GPIO, PIN_HIGH);
 
-    //turn off power2
+    //turn on power2
     rt_pin_mode(POWER2_ON_GPIO, PIN_MODE_OUTPUT);
     rt_pin_write(POWER2_ON_GPIO, PIN_HIGH);
 

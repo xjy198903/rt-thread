@@ -17,12 +17,20 @@
 #define LOG_TAG             "drv.sdram"
 #include <drv_log.h>
 
-#ifndef CODE_RUN_ON_SDRAM
+
 #ifdef RT_USING_MEMHEAP
 static struct rt_memheap system_heap;
 #endif
-#endif
 
+#ifdef CODE_RUN_ON_SDRAM
+#if defined(__ICCARM__) || defined(__GNUC__)
+    extern uint32_t __SDRAM_HEAP_START[];
+    extern uint32_t __SDRAM_HEAP_SIZE[];
+    uint32_t sdram_heap_start = (uint32_t)__SDRAM_HEAP_START;
+    uint32_t sdram_heap_size  = (uint32_t)__SDRAM_HEAP_SIZE;
+#endif
+#endif
+    
 int rt_hw_sdram_init(void)
 {
     int result = RT_EOK;
@@ -97,20 +105,32 @@ int rt_hw_sdram_init(void)
             (SDRAM_SIZE * 1024)/2 - (2 * 1024 * 1024));
 #endif
     }
-//#else
-//      LOG_D("sdram init success, mapped at 0x%X, size is %d Kbytes.", (SDRAM_BANK_ADDR + (SDRAM_SIZE * 1024)/2 + (2 * 1024 * 1024)),\
-//       ((SDRAM_SIZE * 1024)/2 - (2 * 1024 * 1024)) /1024);
-//#ifdef RT_USING_MEMHEAP
-//    /*
-//     * If RT_USING_MEMHEAP is enabled, SDRAM is initialized to the heap.
-//     * The heap start address is (base + half size), and the size is (half size - 2M).
-//     * The reasons are:
-//     *      1. Reserve the half space for SDRAM link case
-//     *      2. Reserve the 2M for non-cache space
-//     */
-//        rt_memheap_init(&system_heap, "sdram", (void *)(SDRAM_BANK_ADDR + (SDRAM_SIZE * 1024)/2 + (2 * 1024 * 1024)),
-//            (SDRAM_SIZE * 1024)/2 - (2 * 1024 * 1024));
+#else
+     LOG_D("sdram init success, mapped at 0x%X, size is %d Kbytes.", sdram_heap_start, sdram_heap_size/1024);
+#ifdef RT_USING_MEMHEAP
+   /*
+    * If RT_USING_MEMHEAP is enabled, SDRAM is initialized to the heap.
+    * The heap start address is (base + half size), and the size is (half size - 2M).
+    * The reasons are:
+    *      1. Reserve the half space for SDRAM link case
+    *      2. Reserve the 2M for non-cache space
+    */
+       rt_memheap_init(&system_heap, "sdram", (void *)(sdram_heap_start), sdram_heap_size);
 //#endif
+//
+//     LOG_D("sdram init success, mapped at 0x%X, size is %d Kbytes.", (SDRAM_BANK_ADDR + (SDRAM_SIZE * 1024)/2 + (2 * 1024 * 1024)),\
+//      ((SDRAM_SIZE * 1024)/2 - (2 * 1024 * 1024)) /1024);
+//#ifdef RT_USING_MEMHEAP
+//   /*
+//    * If RT_USING_MEMHEAP is enabled, SDRAM is initialized to the heap.
+//    * The heap start address is (base + half size), and the size is (half size - 2M).
+//    * The reasons are:
+//    *      1. Reserve the half space for SDRAM link case
+//    *      2. Reserve the 2M for non-cache space
+//    */
+//       rt_memheap_init(&system_heap, "sdram", (void *)(SDRAM_BANK_ADDR + (SDRAM_SIZE * 1024)/2 + (2 * 1024 * 1024)),
+//           (SDRAM_SIZE * 1024)/2 - (2 * 1024 * 1024));
+#endif
 #endif
     return result;
 }

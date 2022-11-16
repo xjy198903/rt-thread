@@ -28,31 +28,37 @@ define symbol m_interrupts_start       = 0x80002000;
 define symbol m_interrupts_end         = 0x800023FF;
 
 define symbol m_text_start             = 0x80002400;
-define symbol m_text_end               = 0x801FFFFF;
+define symbol m_text_end               = 0x803FFFFF;
 
 define symbol m_data_start             = 0x20000000;
 define symbol m_data_end               = 0x2003FFFF;
 
 define symbol m_data2_start            = 0x202C0000;
-define symbol m_data2_end              = 0x2033FFFF;
+define symbol m_data2_end              = 0x2033BFFF;
 
-//define symbol m_data3_start            = 0x80200000;
-//define symbol m_data3_end              = 0x807FFFFF;
-//
-//define symbol m_ncache_start                   = 0x80800000;
-//define symbol m_ncache_end                     = 0x809FFFFF;
+define exported symbol rpmsg_sh_mem_start      = 0x2033C000;
+define exported symbol rpmsg_sh_mem_end        = 0x2033DFFF;
 
-define symbol m_data3_start            = 0x80200000;
+define symbol enet_mem_start = 0x2033E000;
+define symbol enet_mem_end = 0x2033FFFF;
+
+define symbol m_data3_start            = 0x80500000;
 define symbol m_data3_end              = 0x80DFFFFF;
 
-define symbol m_ncache_start                   = 0x80E00000;
-define symbol m_ncache_end                     = 0x80FFFFFF;
+define exported symbol __SDRAM_HEAP_START = m_data3_start;
+define exported symbol __SDRAM_HEAP_SIZE = m_data3_end - m_data3_start + 1;
+
+define symbol m_ncache_start                   = rpmsg_sh_mem_start;
+define symbol m_ncache_end                     = enet_mem_end;
 
 define exported symbol __NCACHE_REGION_START   = m_ncache_start;
 define exported symbol __NCACHE_REGION_SIZE    = m_ncache_end - m_ncache_start + 1;
 
 define symbol m_qacode_start           = 0x00002000;
-define symbol m_qacode_end             = 0x0003FFFF;
+define symbol m_qacode_end             = 0x0003AFFF;
+
+define exported symbol core1_image_start     = 0x80400000; //m4_bm bin address
+define exported symbol core1_image_end       = 0x8047FFFF; //size 512kB
 
 /* Sizes */
 if (isdefinedsymbol(__stack_size__)) {
@@ -70,17 +76,19 @@ if (isdefinedsymbol(__heap_size__)) {
 define exported symbol __VECTOR_TABLE          = m_interrupts_start;
 define exported symbol __VECTOR_RAM            = m_interrupts_start;
 define exported symbol __RAM_VECTOR_TABLE_SIZE = 0x0;
-define exported symbol __RTT_HEAP_END = m_data3_end;
+define exported symbol __RTT_HEAP_END = m_data2_end;
 
 define memory mem with size = 4G;
 define region TEXT_region = mem:[from m_interrupts_start to m_interrupts_end]
                           | mem:[from m_text_start to m_text_end];
 define region QACODE_region = mem:[from m_qacode_start to m_qacode_end];
-define region DATA_region = mem:[from m_data_start to m_data_end];
-define region DATA2_region = mem:[from m_data2_start to m_data2_end-__size_cstack__];
+define region DATA_region = mem:[from m_data_start to m_data_end-__size_cstack__];
+define region DATA2_region = mem:[from m_data2_start to m_data2_end];
 define region DATA3_region  = mem:[from m_data3_start to m_data3_end];
-define region CSTACK_region = mem:[from m_data2_end-__size_cstack__+1 to m_data2_end];
+define region CSTACK_region = mem:[from m_data_end-__size_cstack__+1 to m_data_end];
 define region NCACHE_region = mem:[from m_ncache_start to m_ncache_end];
+define region rpmsg_sh_mem_region = mem:[from rpmsg_sh_mem_start to rpmsg_sh_mem_end];
+define region enet_mem_region = mem:[from enet_mem_start to enet_mem_end];
 
 define block CSTACK    with alignment = 8, size = __size_cstack__   { };
 define block HEAP      with alignment = 8, size = __size_heap__     { };
@@ -89,21 +97,28 @@ define block ZI         with alignment = 32  { first zi, section m_usb_dma_nonin
 define block NCACHE_VAR    { section NonCacheable , section NonCacheable.init };
 define block QACCESS_CODE  { section CodeQuickAccess };
 define block QACCESS_DATA  { section DataQuickAccess };
+define region core1_region = mem:[from core1_image_start to core1_image_end];
+define block CORE1_IMAGE_BLOCK          { section  __core1_image };
 
 initialize by copy { readwrite, section .textrw, section CodeQuickAccess, section DataQuickAccess };
 do not initialize  { section .noinit };
+do not initialize  { section rpmsg_sh_mem_section };
+do not initialize  { section enet_mem_section };
 
 place at address mem: m_interrupts_start    { readonly section .intvec };
 
 place in TEXT_region                        { readonly };
-place in DATA2_region                       { block RW };
-place in DATA2_region                       { block ZI };
+place in DATA_region                       { block RW };
+place in DATA_region                       { block ZI };
 if (isdefinedsymbol(__heap_noncacheable__)) {
   place in NCACHE_region                    { last block HEAP };
 } else {
-  place in DATA3_region                     { last block HEAP };
+  place in DATA_region                     { last block HEAP };
 }
 place in NCACHE_region                      { block NCACHE_VAR };
 place in QACODE_region                      { block QACCESS_CODE };
 place in DATA_region                        { block QACCESS_DATA };
+place in rpmsg_sh_mem_region                { section rpmsg_sh_mem_section };
+place in enet_mem_region                    { section enet_mem_section };
+place in core1_region                       { block CORE1_IMAGE_BLOCK };
 place in CSTACK_region                      { block CSTACK };
