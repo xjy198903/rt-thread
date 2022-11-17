@@ -236,5 +236,5 @@ int imxrt_boot_secondary_core_init(void)
 
     return 0;
 }
-INIT_DEVICE_EXPORT(imxrt_boot_secondary_core_init);
+INIT_ENV_EXPORT(imxrt_boot_secondary_core_init);
 #endif

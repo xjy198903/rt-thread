@@ -234,15 +234,17 @@ int config_fpga_firmware(void)
     char buf;
     uint8_t nstatus_ok = 0;
     uint8_t conf_done_ok = 0;
+    DIR *dirp;
 
     BOARD_InitFPGAFirmWareConfigPins();
 
-    DIR *dirp;
+    int fpga_config_value = check_fpga_config();
+    LOG_D("fpga config value: 0x%x\r\n", fpga_config_value);
 
     /* 打开 /目录 */
     do
     {
-        dirp = opendir("/");
+        dirp = opendir(FPGA_FIREWARM_ROOT_PATH);
     } while (dirp == RT_NULL);
         
     closedir(dirp);
@@ -275,7 +277,7 @@ int config_fpga_firmware(void)
     //     return -1;
     // }
 
-    LOG_D("**** Start configuration process *****************\n");
+    LOG_I("****************** Start configuration process ****************\n");
 
     //drive NCONFIG 0 to 1
     GPIO_WritePinOutput(FPGA_NCONFIG_GPIO_PORT, FPGA_NCONFIG_GPIO_PIN, 0);
@@ -321,6 +323,6 @@ int config_fpga_firmware(void)
     /* add another 'x' clock cycles to make sure the device is initialized (certain cases) */
     // shift_clk(5);
 
-    LOG_D("**** Configuration process end *****************\n");
+    LOG_I("****************** Configuration process end *****************\n");
     return 0;
 }

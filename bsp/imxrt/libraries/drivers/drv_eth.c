@@ -111,22 +111,22 @@ struct rt_imxrt_eth
 #endif
 };
 
-#if defined(__ICCARM__) /* IAR Workbench */
-#pragma location = "enet_mem_section"
-ALIGN(ENET_BUFF_ALIGNMENT)
-static enet_tx_bd_struct_t g_txBuffDescrip[ENET_TXBD_NUM];
-
-ALIGN(ENET_BUFF_ALIGNMENT)
-rt_uint8_t g_txDataBuff[ENET_TXBD_NUM][RT_ALIGN(ENET_TXBUFF_SIZE, ENET_BUFF_ALIGNMENT)];
-
-#pragma location = "enet_mem_section"
-ALIGN(ENET_BUFF_ALIGNMENT)
-static enet_rx_bd_struct_t g_rxBuffDescrip[ENET_RXBD_NUM];
-
-ALIGN(ENET_BUFF_ALIGNMENT)
-rt_uint8_t g_rxDataBuff[ENET_RXBD_NUM][RT_ALIGN(ENET_RXBUFF_SIZE, ENET_BUFF_ALIGNMENT)];
-
-#else
+//#if defined(__ICCARM__) /* IAR Workbench */
+//#pragma location = "enet_mem_section"
+//ALIGN(ENET_BUFF_ALIGNMENT)
+//static enet_tx_bd_struct_t g_txBuffDescrip[ENET_TXBD_NUM];
+//
+//ALIGN(ENET_BUFF_ALIGNMENT)
+//rt_uint8_t g_txDataBuff[ENET_TXBD_NUM][RT_ALIGN(ENET_TXBUFF_SIZE, ENET_BUFF_ALIGNMENT)];
+//
+//#pragma location = "enet_mem_section"
+//ALIGN(ENET_BUFF_ALIGNMENT)
+//static enet_rx_bd_struct_t g_rxBuffDescrip[ENET_RXBD_NUM];
+//
+//ALIGN(ENET_BUFF_ALIGNMENT)
+//rt_uint8_t g_rxDataBuff[ENET_RXBD_NUM][RT_ALIGN(ENET_RXBUFF_SIZE, ENET_BUFF_ALIGNMENT)];
+//
+//#else
 AT_NONCACHEABLE_SECTION_ALIGN(static enet_tx_bd_struct_t g_txBuffDescrip[ENET_TXBD_NUM], ENET_BUFF_ALIGNMENT);
 
 ALIGN(ENET_BUFF_ALIGNMENT)
@@ -135,7 +135,7 @@ rt_uint8_t g_txDataBuff[ENET_TXBD_NUM][RT_ALIGN(ENET_TXBUFF_SIZE, ENET_BUFF_ALIG
 AT_NONCACHEABLE_SECTION_ALIGN(static enet_rx_bd_struct_t g_rxBuffDescrip[ENET_RXBD_NUM], ENET_BUFF_ALIGNMENT);
 ALIGN(ENET_BUFF_ALIGNMENT)
 rt_uint8_t g_rxDataBuff[ENET_RXBD_NUM][RT_ALIGN(ENET_RXBUFF_SIZE, ENET_BUFF_ALIGNMENT)];
-#endif
+//#endif
 
 
 static struct rt_imxrt_eth imxrt_eth_device;
@@ -1176,8 +1176,8 @@ static void phy_monitor_thread_entry(void *parameter)
             }
         }
 
-        //rt_thread_delay(RT_TICK_PER_SECOND * 2);
-        rt_thread_mdelay(300);
+        rt_thread_delay(RT_TICK_PER_SECOND * 2);
+//        rt_thread_mdelay(300);
     }
 }
 #endif
@@ -1258,8 +1258,8 @@ static int rt_hw_imxrt_eth_init(void)
                                phy_monitor_thread_entry,
                                RT_NULL,
                                4096,
-                               RT_THREAD_PRIORITY_MAX - 2,
-                               /*15,*/
+                               /*RT_THREAD_PRIORITY_MAX - 2,*/
+                               15,
                                2);
         if (tid != RT_NULL)
             rt_thread_startup(tid);

@@ -89,6 +89,7 @@
 #define RT_DFS_ELM_REENTRANT
 #define RT_DFS_ELM_MUTEX_TIMEOUT 3000
 #define RT_USING_DFS_DEVFS
+#define RT_USING_DFS_ROMFS
 
 /* Device Drivers */
 
@@ -100,13 +101,20 @@
 #define RT_USING_CPUTIME
 #define RT_USING_PHY
 #define RT_USING_PIN
+#define RT_USING_RTC
+#define RT_USING_SDIO
+#define RT_SDIO_STACK_SIZE 512
+#define RT_SDIO_THREAD_PRIORITY 15
+#define RT_MMCSD_STACK_SIZE 1024
+#define RT_MMCSD_THREAD_PREORITY 15
+#define RT_MMCSD_MAX_PARTITION 16
 
 /* Using USB */
 
 #define RT_USING_USB
 #define RT_USING_USB_HOST
 #define RT_USBH_MSTORAGE
-#define UDISK_MOUNTPOINT "/"
+#define UDISK_MOUNTPOINT "/udisk"
 #define RT_USBD_THREAD_STACK_SZ 4096
 
 /* C/C++ and POSIX layer */
@@ -303,8 +311,10 @@
 
 #define BSP_USING_RPMSG
 #define BSP_USING_GPIO
+#define BSP_USING_RTC
 #define BSP_USING_USB
 #define BSP_USB0_HOST
+#define BSP_USING_SDIO
 #define BSP_USING_LPUART
 #define BSP_USING_LPUART1
 #define BSP_USING_CAN
@@ -322,6 +332,8 @@
 #define PHY_RTL8211F_ADDRESS 1
 #define PHY_RESET_RTL8211F_PORT 5
 #define PHY_RESET_RTL8211F_PIN 14
+#define BSP_USING_FS
+#define BSP_USING_SDCARD_FATFS
 
 /* Board extended module Drivers */
 

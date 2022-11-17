@@ -256,15 +256,6 @@ int main(void)
 
     LOG_D("heap start addr: 0x%x, heap end addr: 0x%x\r\n", HEAP_BEGIN, HEAP_END);
 
-    //turn on power
-    rt_pin_mode(POWER_ON_GPIO, PIN_MODE_OUTPUT);
-    rt_pin_write(POWER_ON_GPIO, PIN_HIGH);
-
-    //turn on power2
-    rt_pin_mode(POWER2_ON_GPIO, PIN_MODE_OUTPUT);
-    rt_pin_write(POWER2_ON_GPIO, PIN_HIGH);
-
-
 // #ifdef BSP_USING_RPMSG
 //     //创建双核通信线程
 //     rt_thread_t rpmsg_tid;
@@ -286,10 +277,15 @@ int main(void)
         rt_thread_startup(led_tid);
     }
     
-    int fpga_config_value = check_fpga_config();
-    printf("fpga config value: 0x%x\r\n", fpga_config_value);
-    
-    config_fpga_firmware();
+   config_fpga_firmware();
+
+    //turn on power
+    rt_pin_mode(POWER_ON_GPIO, PIN_MODE_OUTPUT);
+    rt_pin_write(POWER_ON_GPIO, PIN_HIGH);
+
+    //turn on power2
+    rt_pin_mode(POWER2_ON_GPIO, PIN_MODE_OUTPUT);
+    rt_pin_write(POWER2_ON_GPIO, PIN_HIGH);
 
 #ifdef BSP_USING_CAN
     // can thread test

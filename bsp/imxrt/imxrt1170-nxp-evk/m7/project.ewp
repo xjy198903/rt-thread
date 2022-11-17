@@ -382,6 +382,7 @@
           <state>$PROJ_DIR$\..\..\libraries\drivers</state>
           <state>$PROJ_DIR$\..\..\..\..\libcpu\arm\cortex-m7</state>
           <state>$PROJ_DIR$\..\..\..\..\components\libc\posix\io\poll</state>
+          <state>$PROJ_DIR$\..\..\..\..\components\dfs\filesystems\romfs</state>
           <state>$PROJ_DIR$\.</state>
           <state>$PROJ_DIR$\xip</state>
           <state>$PROJ_DIR$\..\..\libraries\drivers\rpmsg\mcmgr</state>
@@ -1134,13 +1135,13 @@
       <name>$PROJ_DIR$\applications\cnc_can.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\applications\mnt.c</name>
-    </file>
-    <file>
       <name>$PROJ_DIR$\applications\main.c</name>
     </file>
     <file>
       <name>$PROJ_DIR$\applications\fpga_config.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\applications\mnt.c</name>
     </file>
   </group>
   <group>
@@ -1248,6 +1249,24 @@
       <name>$PROJ_DIR$\..\..\..\..\components\drivers\phy\phy.c</name>
     </file>
     <file>
+      <name>$PROJ_DIR$\..\..\..\..\components\drivers\rtc\rtc.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\components\drivers\sdio\block_dev.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\components\drivers\sdio\mmc.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\components\drivers\sdio\mmcsd_core.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\components\drivers\sdio\sd.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\components\drivers\sdio\sdio.c</name>
+    </file>
+    <file>
       <name>$PROJ_DIR$\..\..\..\..\components\drivers\serial\serial.c</name>
     </file>
   </group>
@@ -1287,7 +1306,13 @@
       <name>$PROJ_DIR$\..\..\libraries\drivers\drv_mdio.c</name>
     </file>
     <file>
+      <name>$PROJ_DIR$\..\..\libraries\drivers\drv_rtc.c</name>
+    </file>
+    <file>
       <name>$PROJ_DIR$\..\..\libraries\drivers\drv_rtl8211f.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\libraries\drivers\drv_sdio.c</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\libraries\drivers\drv_sdram.c</name>
@@ -1357,6 +1382,12 @@
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\components\dfs\filesystems\elmfat\ffunicode.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\components\dfs\filesystems\romfs\dfs_romfs.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\components\dfs\filesystems\romfs\romfs.c</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\components\dfs\src\dfs.c</name>
@@ -1434,6 +1465,9 @@
   <group>
     <name>Libraries</name>
     <file>
+      <name>$PROJ_DIR$\..\..\libraries\MIMXRT1170\MIMXRT1176\drivers\fsl_enet.c</name>
+    </file>
+    <file>
       <name>$PROJ_DIR$\..\..\libraries\MIMXRT1170\MIMXRT1176\drivers\fsl_flexspi.c</name>
     </file>
     <file>
@@ -1446,6 +1480,9 @@
       <name>$PROJ_DIR$\..\..\libraries\MIMXRT1170\MIMXRT1176\system_MIMXRT1176_cm7.c</name>
     </file>
     <file>
+      <name>$PROJ_DIR$\..\..\libraries\MIMXRT1170\MIMXRT1176\drivers\fsl_os_abstraction_rtthread.c</name>
+    </file>
+    <file>
       <name>$PROJ_DIR$\..\..\libraries\MIMXRT1170\MIMXRT1176\drivers\fsl_lpuart.c</name>
     </file>
     <file>
@@ -1455,7 +1492,7 @@
       <name>$PROJ_DIR$\..\..\libraries\MIMXRT1170\MIMXRT1176\drivers\fsl_mu.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\libraries\MIMXRT1170\MIMXRT1176\drivers\fsl_os_abstraction_rtthread.c</name>
+      <name>$PROJ_DIR$\..\..\libraries\MIMXRT1170\MIMXRT1176\drivers\fsl_snvs_lp.c</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\libraries\MIMXRT1170\MIMXRT1176\iar\startup_MIMXRT1176_cm7.s</name>
@@ -1473,10 +1510,13 @@
       <name>$PROJ_DIR$\..\..\libraries\MIMXRT1170\MIMXRT1176\drivers\fsl_common_arm.c</name>
     </file>
     <file>
+      <name>$PROJ_DIR$\..\..\libraries\MIMXRT1170\MIMXRT1176\drivers\fsl_usdhc.c</name>
+    </file>
+    <file>
       <name>$PROJ_DIR$\..\..\libraries\MIMXRT1170\MIMXRT1176\drivers\fsl_flexcan.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\libraries\MIMXRT1170\MIMXRT1176\drivers\fsl_enet.c</name>
+      <name>$PROJ_DIR$\..\..\libraries\MIMXRT1170\MIMXRT1176\drivers\fsl_snvs_hp.c</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\libraries\MIMXRT1170\MIMXRT1176\drivers\fsl_common.c</name>
@@ -1626,10 +1666,10 @@
       <name>$PROJ_DIR$\..\..\..\..\components\drivers\usb\usbhost\core\usbhost.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\components\drivers\usb\usbhost\core\usbhost_core.c</name>
+      <name>$PROJ_DIR$\..\..\..\..\components\drivers\usb\usbhost\class\mass.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\components\drivers\usb\usbhost\class\mass.c</name>
+      <name>$PROJ_DIR$\..\..\..\..\components\drivers\usb\usbhost\core\usbhost_core.c</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\components\drivers\usb\usbhost\core\driver.c</name>

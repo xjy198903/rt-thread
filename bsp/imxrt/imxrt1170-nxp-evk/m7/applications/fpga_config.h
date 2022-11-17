@@ -28,7 +28,8 @@
 #define FPGA_DCLK_GPIO_PORT GPIO6
 #define FPGA_DCLK_GPIO_PIN (9U)
 
-#define FPGA_FIREWARM_FILE_PATH "/nac1010.rbf"
+#define FPGA_FIREWARM_ROOT_PATH "/sdcard"
+#define FPGA_FIREWARM_FILE_PATH "/sdcard/nac1010.rbf"
 #define BUF_LEN 1024
 #define CHECK_EVERY_X_BYTE 10240
 
