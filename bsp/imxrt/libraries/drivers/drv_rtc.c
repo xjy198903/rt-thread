@@ -33,7 +33,7 @@ static time_t imxrt_hp_get_timestamp(void)
     snvs_lp_srtc_datetime_t srtcDate = {0};
 
     SNVS_LP_SRTC_GetDatetime(SNVS, &srtcDate);
-    SNVS_HP_RTC_TimeSynchronize(SNVS); 
+    SNVS_HP_RTC_TimeSynchronize(SNVS);
     SNVS_HP_RTC_GetDatetime(SNVS, &rtcDate);
 
     tm_new.tm_sec  = rtcDate.second;
@@ -69,7 +69,7 @@ static int imxrt_hp_set_timestamp(time_t timestamp)
         return -RT_ERROR;
     }
 
-    SNVS_HP_RTC_TimeSynchronize(SNVS); 
+    SNVS_HP_RTC_TimeSynchronize(SNVS);
 
     return RT_EOK;
 }
@@ -77,7 +77,7 @@ static int imxrt_hp_set_timestamp(time_t timestamp)
 static rt_err_t imxrt_hp_rtc_init(rt_device_t dev)
 {
     snvs_hp_rtc_config_t snvsRtcConfig;
-    snvs_lp_srtc_config_t snvsSrtcConfig;    
+    snvs_lp_srtc_config_t snvsSrtcConfig;
 
     /* Init SNVS_HP */
     SNVS_HP_RTC_GetDefaultConfig(&snvsRtcConfig);
