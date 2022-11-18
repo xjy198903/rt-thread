@@ -325,7 +325,6 @@
 /* Onboard Peripheral Drivers */
 
 #define BSP_USING_SDRAM
-#define CODE_RUN_ON_SDRAM
 #define BSP_USING_ETH
 #define BSP_USING_PHY
 #define PHY_USING_RTL8211F

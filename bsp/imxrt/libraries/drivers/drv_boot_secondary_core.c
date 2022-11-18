@@ -43,9 +43,13 @@ extern int core1_image_size;
 #define APP_RPMSG_READY_EVENT_DATA (1U)
 #define APP_RPMSG_EP_READY_EVENT_DATA (2U)
 
-#define RPMSG_THREAD_PRIORITY (8U)
+#define RPMSG_THREAD_PRIORITY (5U)
 #define RPMSG_THREAD_STACK_SIZE (1024U)
 #define RPMSG_THREAD_TICK_SIZE   (20U)
+
+#ifndef DEBUG_SECONDARY_CORE
+#define DEBUG_SECONDARY_CORE 0 //是否调试从核，为1表示调试模式，为0表示正常运行模式
+#endif
 
 typedef struct the_message
 {
@@ -147,17 +151,19 @@ void rpmsg_thread_entry(void *arg)
     //数据处理部分
     while (1)
     {
-        rt_sem_take(&rpmsg_sem, RT_WAITING_FOREVER);
-        // if (has_received == 1)
-        // {
-        // *has_received = 0;
-        msg.DATA++;
-        if(msg.DATA % 10 == 0)
+        if (rt_sem_take(&rpmsg_sem, RT_WAITING_FOREVER) == RT_EOK)
         {
-            LOG_D("DATA = %d", msg.DATA);
+            // if (has_received == 1)
+            // {
+            // *has_received = 0;
+            msg.DATA++;
+            if (msg.DATA % 10 == 0)
+            {
+                LOG_D("DATA = %d", msg.DATA);
+            }
+            (void)rpmsg_lite_send(my_rpmsg, my_ept, REMOTE_EPT_ADDR, (char *)&msg, sizeof(THE_MESSAGE), RL_DONT_BLOCK);
+            // }
         }
-        (void)rpmsg_lite_send(my_rpmsg, my_ept, REMOTE_EPT_ADDR, (char *)&msg, sizeof(THE_MESSAGE), RL_DONT_BLOCK);
-        // }
     }
 
 //         (void)rpmsg_lite_destroy_ept(my_rpmsg, my_ept);
@@ -173,6 +179,7 @@ int _imxrt_boot_secondary_core_init(void)
     volatile int32_t has_received;
     volatile uint16_t RPMsgRemoteReadyEventData = 0;
 
+#if !(defined(DEBUG_SECONDARY_CORE) && (DEBUG_SECONDARY_CORE > 0))
     /* This section ensures the secondary core image is copied from flash location to the target RAM memory.
        It consists of several steps: image size calculation and image copying.
        These steps are not required on MCUXpresso IDE which copies the secondary core image to the target memory during
@@ -185,6 +192,7 @@ int _imxrt_boot_secondary_core_init(void)
 
     /* Copy application from FLASH to RAM */
     (void)rt_memcpy((void *)(char *)CORE1_BOOT_ADDRESS, (void *)CORE1_IMAGE_START, core1_image_size);
+#endif
 
     /* Initialize MCMGR before calling its API */
     (void)MCMGR_Init();
@@ -219,6 +227,8 @@ int _imxrt_boot_secondary_core_init(void)
     while (APP_RPMSG_EP_READY_EVENT_DATA != RPMsgRemoteReadyEventData)
     {
     };
+
+    LOG_I("startup secondary core.");
 
     //创建双核通信线程
     rt_thread_t rpmsg_tid;

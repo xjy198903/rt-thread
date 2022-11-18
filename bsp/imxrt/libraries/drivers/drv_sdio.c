@@ -24,6 +24,11 @@
 
 //#define DEBUG
 
+#ifndef CODE_STORED_ON_SDCARD
+#define CODE_STORED_ON_SDCARD 0 //1 -- normal mode , 0 -- debug mode
+#endif
+
+
 #ifdef DEBUG
 static int enable_log = 1;
 
@@ -91,7 +96,7 @@ struct imxrt_mmcsd
     uint32_t *usdhc_adma2_table;
 };
 
-#ifndef CODE_STORED_ON_SDCARD
+#if !(defined(CODE_STORED_ON_SDCARD) && (CODE_STORED_ON_SDCARD > 0U))
 static void _mmcsd_gpio_init(struct imxrt_mmcsd *mmcsd)
 {
 
@@ -118,7 +123,7 @@ static void SDMMCHOST_ErrorRecovery(USDHC_Type *base)
     }
 }
 
-#ifndef CODE_STORED_ON_SDCARD
+#if !(defined(CODE_STORED_ON_SDCARD) && (CODE_STORED_ON_SDCARD > 0U))
 static void _mmcsd_host_init(struct imxrt_mmcsd *mmcsd)
 {
     usdhc_host_t *usdhc_host = &mmcsd->usdhc_host;
@@ -454,7 +459,7 @@ rt_int32_t _imxrt_mci_init(void)
 #endif
     mmcsd->host = host;
 
-#ifndef CODE_STORED_ON_SDCARD
+#if !(defined(CODE_STORED_ON_SDCARD) && (CODE_STORED_ON_SDCARD > 0U))
     _mmcsd_clk_init(mmcsd);
     _mmcsd_isr_init(mmcsd);
     _mmcsd_gpio_init(mmcsd);

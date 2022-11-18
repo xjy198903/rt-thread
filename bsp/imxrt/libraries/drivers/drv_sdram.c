@@ -22,7 +22,12 @@
 static struct rt_memheap system_heap;
 #endif
 
-#ifdef CODE_RUN_ON_SDRAM
+#ifndef CODE_RUN_ON_SDRAM
+#define CODE_RUN_ON_SDRAM 1 // 1 -- code run on SDRAM memory; 0 -- code run on ram or xip flash memory
+#endif
+
+// #if (defined(USB_HOST_CONFIG_LOW_POWER_MODE) && (USB_HOST_CONFIG_LOW_POWER_MODE > 0U))
+#if (defined(CODE_RUN_ON_SDRAM) && (CODE_RUN_ON_SDRAM > 0U))
 #if defined(__ICCARM__) || defined(__GNUC__)
     extern uint32_t __SDRAM_HEAP_START[];
     extern uint32_t __SDRAM_HEAP_SIZE[];
@@ -34,7 +39,7 @@ static struct rt_memheap system_heap;
 int rt_hw_sdram_init(void)
 {
     int result = RT_EOK;
-#ifndef CODE_RUN_ON_SDRAM
+#if !(defined(CODE_RUN_ON_SDRAM) && (CODE_RUN_ON_SDRAM > 0U))
     semc_config_t config;
     semc_sdram_config_t sdramconfig;
 

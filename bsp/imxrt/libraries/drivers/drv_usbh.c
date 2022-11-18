@@ -38,6 +38,9 @@
 #endif
 
 #define USB_HOST_INTERRUPT_PRIORITY 6
+#define USB_HOST_THREAD_PRIORITY  (8U)
+#define USB_HOST_THREAD_STACK_SIZE (512U)
+#define USB_HOST_THREAD_TICK_SIZE (20U)
 
 enum
 {
@@ -399,7 +402,8 @@ static rt_err_t _ehci0_usbh_init(rt_device_t device)
 
     if (kStatus_USB_Success == USB_HostInit(kUSB_ControllerEhci0, &imxrt_usb_host_obj[USBH0_INDEX].host_handle, usb0_host_callback))
     {
-        usbh0_thread = rt_thread_create("ehci0", _ehci0_usbh_thread, RT_NULL, 500, 4, 9999999);
+        // usbh0_thread = rt_thread_create("ehci0", _ehci0_usbh_thread, RT_NULL, 500, 4, 9999999);
+        usbh0_thread = rt_thread_create("ehci0", _ehci0_usbh_thread, RT_NULL, USB_HOST_THREAD_STACK_SIZE, USB_HOST_THREAD_PRIORITY, USB_HOST_THREAD_TICK_SIZE);
         rt_thread_startup(usbh0_thread);
         USB_HostIsrEnable(kUSB_ControllerEhci0);
     }

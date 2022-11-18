@@ -53,13 +53,13 @@ menu "On-chip Peripheral Drivers"
         select RT_USING_DFS
         default n
 
-        if BSP_USING_SDIO
-			config CODE_STORED_ON_SDCARD
-				bool "Enable Code STORED On SDCARD"
-				default n
-                help 
-					"SD CARD work as boot devive"				
-		endif
+        #if BSP_USING_SDIO
+		#	config CODE_STORED_ON_SDCARD
+		#		bool "Enable Code STORED On SDCARD"
+		#		default n
+        #        help 
+		#			"SD CARD work as boot devive"				
+		#endif
 
     menuconfig BSP_USING_LPUART
         bool "Enable UART"
@@ -156,11 +156,11 @@ menu "Onboard Peripheral Drivers"
         bool "Enable SDRAM"
         default n
 		
-		if BSP_USING_SDRAM
-			config CODE_RUN_ON_SDRAM
-				bool "Enable Code Run On SDRAM"
-				default n
-		endif
+		#if BSP_USING_SDRAM
+		#	config CODE_RUN_ON_SDRAM
+		#		bool "Enable Code Run On SDRAM"
+		#		default n
+		#endif
 
     menuconfig BSP_USING_ETH
     bool "Enable Ethernet"
