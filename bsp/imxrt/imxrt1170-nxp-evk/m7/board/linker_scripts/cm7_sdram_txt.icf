@@ -55,7 +55,7 @@ define exported symbol __NCACHE_REGION_START   = m_ncache_start;
 define exported symbol __NCACHE_REGION_SIZE    = m_ncache_end - m_ncache_start + 1;
 
 define symbol m_qacode_start           = 0x00002000;
-define symbol m_qacode_end             = 0x0003AFFF;
+define symbol m_qacode_end             = 0x0003FFFF;
 
 define exported symbol core1_image_start     = 0x80400000; //m4_bm bin address
 define exported symbol core1_image_end       = 0x8047FFFF; //size 512kB
