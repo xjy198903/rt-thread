@@ -174,6 +174,23 @@ void rpmsg_thread_entry(void *arg)
 //         (void)LOG_D("RPMsg demo ends\r\n");
 }
 
+int _imxrt_comm_with_secondary_core(void)
+{
+    LOG_I("communication with secondary core begins.");
+
+    /* init rpmsg semaphore */
+    rt_sem_init(&rpmsg_sem, "rpmsg_sem", 0, RT_IPC_FLAG_FIFO);
+
+    //创建双核通信线程
+    rt_thread_t rpmsg_tid;
+    rpmsg_tid = rt_thread_create("rpmsg_thread", rpmsg_thread_entry, NULL,
+                                 RPMSG_THREAD_STACK_SIZE, RPMSG_THREAD_PRIORITY, RPMSG_THREAD_TICK_SIZE);
+    if (rpmsg_tid != RT_NULL)
+        rt_thread_startup(rpmsg_tid);
+    return 0;    
+}
+INIT_APP_EXPORT(_imxrt_comm_with_secondary_core);
+
 int _imxrt_boot_secondary_core_init(void)
 {
     volatile int32_t has_received;
@@ -219,23 +236,7 @@ int _imxrt_boot_secondary_core_init(void)
     // my_ept = rpmsg_lite_create_ept(my_rpmsg, LOCAL_EPT_ADDR, my_ept_read_cb, (void *)&has_received, &my_ept_context);
     my_ept = rpmsg_lite_create_ept(my_rpmsg, LOCAL_EPT_ADDR, my_ept_read_cb, NULL, &my_ept_context);
 
-    has_received = 0;
-    /* init rpmsg semaphore */
-    rt_sem_init(&rpmsg_sem, "rpmsg_sem", 0, RT_IPC_FLAG_FIFO);
-
-    /* Wait until the secondary core application signals the rpmsg remote endpoint has been created. */
-    while (APP_RPMSG_EP_READY_EVENT_DATA != RPMsgRemoteReadyEventData)
-    {
-    };
-
-    LOG_I("startup secondary core.");
-
-    //创建双核通信线程
-    rt_thread_t rpmsg_tid;
-    rpmsg_tid = rt_thread_create("rpmsg_thread", rpmsg_thread_entry, NULL,
-                                 RPMSG_THREAD_STACK_SIZE, RPMSG_THREAD_PRIORITY, RPMSG_THREAD_TICK_SIZE);
-    if (rpmsg_tid != RT_NULL)
-        rt_thread_startup(rpmsg_tid);
+    //has_received = 0;
     return 0;
 }
 
@@ -246,5 +247,5 @@ int imxrt_boot_secondary_core_init(void)
 
     return 0;
 }
-INIT_ENV_EXPORT(imxrt_boot_secondary_core_init);
+INIT_DEVICE_EXPORT(imxrt_boot_secondary_core_init);
 #endif
