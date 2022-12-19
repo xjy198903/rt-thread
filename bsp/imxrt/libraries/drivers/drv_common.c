@@ -40,3 +40,10 @@ void rt_hw_us_delay(rt_uint32_t us)
         }
     }
 }
+
+
+void reboot(void)
+{
+    NVIC_SystemReset();
+}
+MSH_CMD_EXPORT(reboot, reset system)
