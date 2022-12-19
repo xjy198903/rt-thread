@@ -25,7 +25,7 @@
 //#define DEBUG
 
 #ifndef CODE_STORED_ON_SDCARD
-#define CODE_STORED_ON_SDCARD 0 //1 -- normal mode , 0 -- debug mode
+#define CODE_STORED_ON_SDCARD 1 //1 -- normal mode , 0 -- debug mode
 #endif
 
 

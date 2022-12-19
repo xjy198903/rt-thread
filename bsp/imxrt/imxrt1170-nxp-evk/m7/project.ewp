@@ -1132,13 +1132,13 @@
   <group>
     <name>Applications</name>
     <file>
-      <name>$PROJ_DIR$\applications\mnt.c</name>
+      <name>$PROJ_DIR$\applications\main.c</name>
     </file>
     <file>
       <name>$PROJ_DIR$\applications\fpga_config.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\applications\main.c</name>
+      <name>$PROJ_DIR$\applications\mnt.c</name>
     </file>
     <file>
       <name>$PROJ_DIR$\applications\cnc_can.c</name>
@@ -1666,10 +1666,10 @@
       <name>$PROJ_DIR$\..\..\..\..\components\drivers\usb\usbhost\core\usbhost.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\components\drivers\usb\usbhost\class\udisk.c</name>
+      <name>$PROJ_DIR$\..\..\..\..\components\drivers\usb\usbhost\core\usbhost_core.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\components\drivers\usb\usbhost\core\usbhost_core.c</name>
+      <name>$PROJ_DIR$\..\..\..\..\components\drivers\usb\usbhost\class\udisk.c</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\components\drivers\usb\usbhost\core\driver.c</name>
@@ -1687,10 +1687,10 @@
   <group>
     <name>xip</name>
     <file>
-      <name>$PROJ_DIR$\xip\evkmimxrt1170_flexspi_nor_config.c</name>
+      <name>$PROJ_DIR$\xip\fsl_flexspi_nor_boot.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\xip\fsl_flexspi_nor_boot.c</name>
+      <name>$PROJ_DIR$\xip\evkmimxrt1170_flexspi_nor_config.c</name>
     </file>
   </group>
 </project>

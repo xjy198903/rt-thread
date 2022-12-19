@@ -65,7 +65,7 @@ static int onboard_sdcard_mount(void)
     {
         rt_thread_mdelay(1);
     }
-    if (dfs_mount("sd0", "/sdcard", "elm", 0, 0) == RT_EOK)
+    if (dfs_mount("sd0p1", "/sdcard", "elm", 0, 0) == RT_EOK)
     {
         LOG_I("SD card mount to '/sdcard'");
     }
