@@ -37,10 +37,10 @@ define symbol m_data2_start            = 0x202C0000;
 define symbol m_data2_end              = 0x2033BFFF;
 
 define exported symbol rpmsg_sh_mem_start      = 0x2033C000;
-define exported symbol rpmsg_sh_mem_end        = 0x2033DFFF;
+define exported symbol rpmsg_sh_mem_end        = 0x2033FFFF;
 
-define symbol enet_mem_start = 0x2033E000;
-define symbol enet_mem_end = 0x2033FFFF;
+//define symbol enet_mem_start = 0x2033E000;
+//define symbol enet_mem_end = 0x2033FFFF;
 
 define symbol m_data3_start            = 0x80500000;
 define symbol m_data3_end              = 0x80DFFFFF;
@@ -49,7 +49,7 @@ define exported symbol __SDRAM_HEAP_START = m_data3_start;
 define exported symbol __SDRAM_HEAP_SIZE = m_data3_end - m_data3_start + 1;
 
 define symbol m_ncache_start                   = rpmsg_sh_mem_start;
-define symbol m_ncache_end                     = enet_mem_end;
+define symbol m_ncache_end                     = rpmsg_sh_mem_end;
 
 define exported symbol __NCACHE_REGION_START   = m_ncache_start;
 define exported symbol __NCACHE_REGION_SIZE    = m_ncache_end - m_ncache_start + 1;
@@ -88,7 +88,7 @@ define region DATA3_region  = mem:[from m_data3_start to m_data3_end];
 define region CSTACK_region = mem:[from m_data_end-__size_cstack__+1 to m_data_end];
 define region NCACHE_region = mem:[from m_ncache_start to m_ncache_end];
 define region rpmsg_sh_mem_region = mem:[from rpmsg_sh_mem_start to rpmsg_sh_mem_end];
-define region enet_mem_region = mem:[from enet_mem_start to enet_mem_end];
+//define region enet_mem_region = mem:[from enet_mem_start to enet_mem_end];
 
 define block CSTACK    with alignment = 8, size = __size_cstack__   { };
 define block HEAP      with alignment = 8, size = __size_heap__     { };
@@ -103,7 +103,7 @@ define block CORE1_IMAGE_BLOCK          { section  __core1_image };
 initialize by copy { readwrite, section .textrw, section CodeQuickAccess, section DataQuickAccess };
 do not initialize  { section .noinit };
 do not initialize  { section rpmsg_sh_mem_section };
-do not initialize  { section enet_mem_section };
+//do not initialize  { section enet_mem_section };
 
 place at address mem: m_interrupts_start    { readonly section .intvec };
 
@@ -119,6 +119,6 @@ place in NCACHE_region                      { block NCACHE_VAR };
 place in QACODE_region                      { block QACCESS_CODE };
 place in DATA_region                        { block QACCESS_DATA };
 place in rpmsg_sh_mem_region                { section rpmsg_sh_mem_section };
-place in enet_mem_region                    { section enet_mem_section };
+//place in enet_mem_region                    { section enet_mem_section };
 place in core1_region                       { block CORE1_IMAGE_BLOCK };
 place in CSTACK_region                      { block CSTACK };
