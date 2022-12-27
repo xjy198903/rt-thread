@@ -1135,10 +1135,10 @@
       <name>$PROJ_DIR$\applications\main.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\applications\fpga_config.c</name>
+      <name>$PROJ_DIR$\applications\mnt.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\applications\mnt.c</name>
+      <name>$PROJ_DIR$\applications\fpga_config.c</name>
     </file>
     <file>
       <name>$PROJ_DIR$\applications\cnc_can.c</name>
@@ -1657,19 +1657,19 @@
   <group>
     <name>rt_usbh</name>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\components\drivers\usb\usbhost\class\mass.c</name>
-    </file>
-    <file>
       <name>$PROJ_DIR$\..\..\..\..\components\drivers\usb\usbhost\core\hub.c</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\components\drivers\usb\usbhost\core\usbhost.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\components\drivers\usb\usbhost\core\usbhost_core.c</name>
+      <name>$PROJ_DIR$\..\..\..\..\components\drivers\usb\usbhost\class\udisk.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\components\drivers\usb\usbhost\class\udisk.c</name>
+      <name>$PROJ_DIR$\..\..\..\..\components\drivers\usb\usbhost\class\mass.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\components\drivers\usb\usbhost\core\usbhost_core.c</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\components\drivers\usb\usbhost\core\driver.c</name>

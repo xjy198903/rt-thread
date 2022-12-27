@@ -11,6 +11,7 @@
 
 #include <rtthread.h>
 #include <rtdevice.h>
+#include <rthw.h>
 #include <drv_gpio.h>
 #include <fsl_gpio.h>
 #include "fpga_config.h"
@@ -252,9 +253,11 @@ void led_thread_entry(void *arg)
 int main(void)
 {
     rt_pin_mode(LED_PIN, PIN_MODE_OUTPUT);
-    printf("hello cncbeijing\r\n");
-
+    printf("hello cncbeijing for version 1.0.0\r\n");
+    
     LOG_D("heap start addr: 0x%x, heap end addr: 0x%x\r\n", HEAP_BEGIN, HEAP_END);
+
+//    rt_hw_us_delay(500000);
 
 // #ifdef BSP_USING_RPMSG
 //     //创建双核通信线程
