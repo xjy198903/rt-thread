@@ -25,7 +25,7 @@
 //#define DEBUG
 
 #ifndef CODE_STORED_ON_SDCARD
-#define CODE_STORED_ON_SDCARD 1 //1 -- normal mode , 0 -- debug mode
+#define CODE_STORED_ON_SDCARD 0 //1 -- normal mode , 0 -- debug mode
 #endif
 
 
@@ -460,10 +460,11 @@ rt_int32_t _imxrt_mci_init(void)
     mmcsd->host = host;
 
 #if !(defined(CODE_STORED_ON_SDCARD) && (CODE_STORED_ON_SDCARD > 0U))
-    _mmcsd_clk_init(mmcsd);
-    _mmcsd_isr_init(mmcsd);
-    _mmcsd_gpio_init(mmcsd);
-    _mmcsd_host_init(mmcsd);
+    //新制1176板卡，需要注释这块，否则程序无法运行
+//    _mmcsd_clk_init(mmcsd);
+//    _mmcsd_isr_init(mmcsd);
+//    _mmcsd_gpio_init(mmcsd);
+//    _mmcsd_host_init(mmcsd);
 #endif
     
     host->private_data = mmcsd;
