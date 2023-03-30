@@ -253,7 +253,6 @@ void led_thread_entry(void *arg)
 int main(void)
 {
     rt_pin_mode(LED_PIN, PIN_MODE_OUTPUT);
-    printf("build time: %s %s\r\n", __DATE__, __TIME__);
     
     LOG_D("heap start addr: 0x%x, heap end addr: 0x%x\r\n", HEAP_BEGIN, HEAP_END);
 
